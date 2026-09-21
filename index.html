@@ -419,60 +419,63 @@
     </div>
   </div>
 
-  <!-- ARCHIVOS CLASIFICADOS -->
-  <div class="seccion">
-    <div class="titulo-seccion" id="encabezado-casos">
-      <span>🔒 ARCHIVOS_CLASIFICADOS</span>
-      <span id="icono-casos">▼</span>
-    </div>
-    <div class="contenido-seccion visible" id="contenido-casos">
-      <div class="cuadricula-casos">
-        
-        <div class="tarjeta-caso">
-          <div class="nombre-caso">📁 CASO 12345</div>
-          <input type="file" accept="image/*" id="archivo-caso-1" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-1')">
-          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-1').click()">📷 Subir Imagen</button>
-          <div class="vista-previa" id="vista-1"><img alt="Vista previa"></div>
+<!-- ARCHIVOS CLASIFICADOS -->
+<div class="seccion">
+  <div class="titulo-seccion" id="encabezado-casos">
+    <span>🔒 ARCHIVOS_CLASIFICADOS</span>
+    <span id="icono-casos">▼</span>
+  </div>
+  <div class="contenido-seccion visible" id="contenido-casos">
+    <div class="cuadricula-casos">
+      
+      <!-- CASO 12345 -->
+      <div class="tarjeta-caso">
+        <div class="nombre-caso">📁 CASO 12345</div>
+        <button class="boton-verde" onclick="verificarCasos('caso-12345', this)">🔍 VER DETALLES</button>
+        <div id="caso-12345" class="vista-previa">
+          <img src="https://i.imgur.com/6XZpZQ9.jpg" alt="Caso 12345 — Imagen Clasificada">
         </div>
-
-        <div class="tarjeta-caso">
-          <div class="nombre-caso">📁 CASO 34556</div>
-          <input type="file" accept="image/*" id="archivo-caso-2" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-2')">
-          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-2').click()">📷 Subir Imagen</button>
-          <div class="vista-previa" id="vista-2"><img alt="Vista previa"></div>
-        </div>
-
-        <div class="tarjeta-caso">
-          <div class="nombre-caso">📁 CASO 35673</div>
-          <input type="file" accept="image/*" id="archivo-caso-3" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-3')">
-          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-3').click()">📷 Subir Imagen</button>
-          <div class="vista-previa" id="vista-3"><img alt="Vista previa"></div>
-        </div>
-
-        <div class="tarjeta-caso">
-          <div class="nombre-caso">📁 CASO 35699</div>
-          <input type="file" accept="image/*" id="archivo-caso-4" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-4')">
-          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-4').click()">📷 Subir Imagen</button>
-          <div class="vista-previa" id="vista-4"><img alt="Vista previa"></div>
-        </div>
-
-        <div class="tarjeta-caso">
-          <div class="nombre-caso">📁 CASO 34555</div>
-          <input type="file" accept="image/*" id="archivo-caso-5" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-5')">
-          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-5').click()">📷 Subir Imagen</button>
-          <div class="vista-previa" id="vista-5"><img alt="Vista previa"></div>
-        </div>
-
-        <div class="tarjeta-caso">
-          <div class="nombre-caso">📁 CASO 34955</div>
-          <input type="file" accept="image/*" id="archivo-caso-6" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-6')">
-          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-6').click()">📷 Subir Imagen</button>
-          <div class="vista-previa" id="vista-6"><img alt="Vista previa"></div>
-        </div>
-
       </div>
+
+      <!-- CASO 34556 -->
+      <div class="tarjeta-caso">
+        <div class="nombre-caso">📁 CASO 34556</div>
+        <button class="boton-verde" onclick="verificarCasos('caso-34556', this)">🔍 VER DETALLES</button>
+        <div id="caso-34556" class="vista-previa">
+          <img src="https://i.imgur.com/8YrT7b2.jpg" alt="Caso 34556 — Imagen Clasificada">
+        </div>
+      </div>
+
+      <!-- CASO 35673 -->
+      <div class="tarjeta-caso">
+        <div class="nombre-caso">📁 CASO 35673</div>
+        <button class="boton-verde" onclick="verificarCasos('caso-35673', this)">🔍 VER DETALLES</button>
+        <div id="caso-35673" class="vista-previa">
+          <img src="https://i.imgur.com/9ZqXcR4.jpg" alt="Caso 35673 — Imagen Clasificada">
+        </div>
+      </div>
+
+      <!-- CASO 35699 -->
+      <div class="tarjeta-caso">
+        <div class="nombre-caso">📁 CASO 35699</div>
+        <button class="boton-verde" onclick="verificarCasos('caso-35699', this)">🔍 VER DETALLES</button>
+        <div id="caso-35699" class="vista-previa">
+          <img src="https://i.imgur.com/7WpYdS1.jpg" alt="Caso 35699 — Imagen Clasificada">
+        </div>
+      </div>
+
+      <!-- CASO 34555 -->
+      <div class="tarjeta-caso">
+        <div class="nombre-caso">📁 CASO 34555</div>
+        <button class="boton-verde" onclick="verificarCasos('caso-34555', this)">🔍 VER DETALLES</button>
+        <div id="caso-34555" class="vista-previa">
+          <img src="https://i.imgur.com/5VrXsT3.jpg" alt="Caso 34555 — Imagen Clasificada">
+        </div>
+      </div>
+
     </div>
   </div>
+</div>
 
   <button id="boton-credencial" class="boton-credencial-pie">📋 VER_CREDENCIAL_DE_AGENTE</button>
 </div>
@@ -649,15 +652,19 @@ document.getElementById("encabezado-casos")?.addEventListener("click", () => {
     document.getElementById("contenido-casos").classList.contains("visible") ? "▲" : "▼";
 });
 
-// === SUBIR IMÁGENES DE CASOS ===
-function mostrarImagen(input, id) {
-  if (input.files?.[0]) {
-    const r = new FileReader();
-    r.onload = e => {
-      const v = document.getElementById(id);
-      if (v) { v.querySelector("img").src = e.target.result; v.classList.add("mostrada"); }
-    };
-    r.readAsDataURL(input.files[0]);
+// === VERIFICAR CONTRASEÑA PARA VER IMAGEN ===
+const CLAVE_CASOS = "12345";
+
+function verificarCasos(idCaso, boton) {
+  const claveIngresada = prompt("🔐 INGRESE CÓDIGO DE AUTORIZACIÓN:");
+  
+  if (claveIngresada === CLAVE_CASOS) {
+    document.getElementById(idCaso).classList.add("mostrada");
+    boton.textContent = "✅ ACCESO_CONCEDIDO";
+    boton.disabled = true;
+    boton.style.background = "#060";
+  } else if (claveIngresada !== null) {
+    alert("❌ ACCESO_DENEGADO\nCódigo de autorización incorrecto");
   }
 }
 </script>
