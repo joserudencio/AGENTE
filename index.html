@@ -674,10 +674,10 @@ function crearVentanaCredenciales() {
       background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center;
       z-index: 99999;
     ">
-      <div style="
+    <div style="
         background: #001100; border: 2px solid #0f0; padding: 30px 25px; border-radius: 12px;
         box-shadow: 0 0 25px #0f0; width: 90%; max-width: 380px; text-align: center;
-        font-family: 'Courier New', monospace;
+        font-family: 'Courier New', Courier, monospace;
       ">
         <h3 style="color: #0f0; margin: 0 0 20px 0; font-size: 18px; text-shadow: 0 0 8px #0f0;">
           🔐 INGRESE CREDENCIALES
@@ -685,17 +685,36 @@ function crearVentanaCredenciales() {
         <input type="password" id="entrada-clave-casos" placeholder="Escriba código aquí" style="
           width: 100%; padding: 12px; background: #002200; border: 1px solid #0f0;
           color: #0f0; font-size: 16px; border-radius: 6px; margin-bottom: 20px; outline: none;
+          text-align: center; letter-spacing: 4px;
         ">
         <div style="display: flex; gap: 12px; justify-content: center;">
           <button id="btn-cancelar-clave" style="
             padding: 10px 22px; background: #222; color: #f44; border: 2px solid #f44;
-            border-radius: 6px; font-weight: bold; cursor: pointer;
+            border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 15px;
           ">CANCELAR</button>
           <button id="btn-aceptar-clave" style="
             padding: 10px 22px; background: #0f0; color: #000; border: 2px solid #0f0;
-            border-radius: 6px; font-weight: bold; cursor: pointer;
+            border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 15px;
           ">ACEPTAR</button>
         </div>
+      </div>
+    </div>
+
+    <!-- VENTANA DE RESULTADO -->
+    <div id="ventana-resultado" style="
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.92); display: none; justify-content: center; align-items: center;
+      z-index: 100000;
+    ">
+      <div id="caja-resultado" style="
+        padding: 30px 25px; border-radius: 12px; width: 90%; max-width: 380px; text-align: center;
+        font-family: 'Courier New', Courier, monospace;
+      ">
+        <p id="texto-resultado" style="font-size: 18px; margin-bottom: 20px;"></p>
+        <button id="btn-cerrar-resultado" style="
+          padding: 10px 30px; border-radius: 6px; font-weight: bold; cursor: pointer;
+          font-size: 15px; border: none;
+        ">ACEPTAR</button>
       </div>
     </div>
   `;
@@ -707,6 +726,7 @@ function crearVentanaCredenciales() {
   document.getElementById("entrada-clave-casos").addEventListener("keypress", e => {
     if (e.key === "Enter") verificarClave();
   });
+  document.getElementById("btn-cerrar-resultado").onclick = cerrarResultado;
 }
 
 // Abrir ventana desde cada botón
@@ -720,7 +740,7 @@ function verificarCasos(idCaso, boton) {
   document.getElementById("entrada-clave-casos").focus();
 }
 
-// Cerrar ventana
+// Cerrar ventana de ingreso
 function cerrarVentana() {
   const v = document.getElementById("ventana-clave-casos");
   if (v) v.style.display = "none";
@@ -728,20 +748,52 @@ function cerrarVentana() {
   botonActivo = null;
 }
 
+// Cerrar ventana de resultado
+function cerrarResultado() {
+  document.getElementById("ventana-resultado").style.display = "none";
+}
+
+// Mostrar mensaje personalizado
+function mostrarResultado(esExito, mensaje) {
+  const ventana = document.getElementById("ventana-resultado");
+  const caja = document.getElementById("caja-resultado");
+  const texto = document.getElementById("texto-resultado");
+  const btn = document.getElementById("btn-cerrar-resultado");
+
+  if (esExito) {
+    caja.style.background = "#001100";
+    caja.style.border = "2px solid #0f0";
+    caja.style.boxShadow = "0 0 25px #0f0";
+    texto.style.color = "#0f0";
+    btn.style.background = "#0f0";
+    btn.style.color = "#000";
+  } else {
+    caja.style.background = "#110000";
+    caja.style.border = "2px solid #f44";
+    caja.style.boxShadow = "0 0 25px #f44";
+    texto.style.color = "#f44";
+    btn.style.background = "#f44";
+    btn.style.color = "#000";
+  }
+
+  texto.textContent = mensaje;
+  ventana.style.display = "flex";
+}
+
 // Comprobar contraseña
 function verificarClave() {
   const ingresada = document.getElementById("entrada-clave-casos").value.trim();
   
   if (ingresada === CLAVE_CASOS) {
+    cerrarVentana();
     document.getElementById(casoActivo).classList.add("mostrada");
     botonActivo.textContent = "✅ ACCESO_AUTORIZADO";
     botonActivo.disabled = true;
     botonActivo.style.background = "#006600";
     botonActivo.style.color = "#00FF00";
-    cerrarVentana();
-    alert("✅ ACCESO AUTORIZADO");
+    mostrarResultado(true, "✅ ACCESO AUTORIZADO");
   } else {
-    alert("❌ ACCESO DENEGADO\nCódigo incorrecto");
+    mostrarResultado(false, "❌ ACCESO DENEGADO\nCódigo incorrecto");
   }
 }
 </script>
