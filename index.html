@@ -12,14 +12,14 @@
       min-height: 100vh;
       padding: 20px;
       background-image: 
-        linear-gradient(rgba(0, 255, 100, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 100, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(0,255,100,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,100,0.03) 1px, transparent 1px);
       background-size: 30px 30px;
     }
 
     @keyframes aparecer {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      from { opacity:0; transform:scale(0.95); }
+      to { opacity:1; transform:scale(1); }
     }
 
     /* === LOGIN === */
@@ -30,13 +30,13 @@
       min-height: 100vh;
     }
     .caja-login {
-      background: rgba(0, 20, 10, 0.9);
+      background: rgba(0,20,10,0.9);
       border: 3px solid #00ff66;
       border-radius: 15px;
       padding: 40px 30px;
       width: 100%;
       max-width: 450px;
-      box-shadow: 0 0 30px rgba(0, 255, 100, 0.3);
+      box-shadow: 0 0 30px rgba(0,255,100,0.3);
     }
     .titulo-login {
       color: #00ff66;
@@ -57,7 +57,7 @@
       width: 100%;
       padding: 16px;
       margin-bottom: 25px;
-      background: rgba(0, 40, 20, 0.5);
+      background: rgba(0,40,20,0.5);
       border: 2px solid #00aa44;
       border-radius: 8px;
       color: #00ff66;
@@ -80,10 +80,7 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    #botonIngresar:active {
-      transform: scale(0.98);
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
-    }
+    #botonIngresar:active { transform: scale(0.98); }
     #mensajeError {
       color: #ff4444;
       margin-top: 15px;
@@ -115,14 +112,8 @@
       font-size: 18px;
       font-weight: bold;
     }
-    .bienvenida {
-      color: #88ffaa;
-      margin-top: 5px;
-    }
-    .resaltado {
-      color: #ffdd00;
-      font-weight: bold;
-    }
+    .bienvenida { color: #88ffaa; margin-top: 5px; }
+    .resaltado { color: #ffdd00; font-weight: bold; }
     .btn-credencial {
       background: linear-gradient(135deg, #ffcc00, #ffdd44);
       border: none;
@@ -131,9 +122,7 @@
       color: #000;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.2s;
     }
-    .btn-credencial:active { transform: scale(0.97); }
     .btn-salir {
       background: transparent;
       border: 1px solid #ff4444;
@@ -142,9 +131,7 @@
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
-      transition: 0.2s;
     }
-    .btn-salir:active { background: rgba(255,68,68,0.2); }
 
     /* === BOTONES BASES === */
     .contenedor-botones {
@@ -154,7 +141,7 @@
       margin-bottom: 30px;
     }
     .boton-base {
-      background: rgba(0, 30, 15, 0.6);
+      background: rgba(0,30,15,0.6);
       border: 2px solid #00aa44;
       border-radius: 10px;
       padding: 20px;
@@ -165,7 +152,7 @@
     .boton-base:active { transform: scale(0.97); }
     .boton-nasa {
       border-color: #0066cc;
-      background: rgba(0, 20, 60, 0.6);
+      background: rgba(0,20,60,0.6);
     }
     .icono { font-size: 30px; margin-bottom: 8px; }
     .nombre-base { color: #00ff66; font-weight: bold; margin-bottom: 4px; }
@@ -175,7 +162,7 @@
 
     /* === VISORES === */
     .visor {
-      background: rgba(0, 20, 10, 0.5);
+      background: rgba(0,20,10,0.5);
       border: 1px solid #004422;
       border-radius: 10px;
       padding: 25px;
@@ -206,9 +193,7 @@
       font-weight: bold;
       cursor: pointer;
       margin-top: 10px;
-      transition: 0.2s;
     }
-    .btn-detalles:active { transform: scale(0.98); }
     .caja-clave {
       margin-top: 20px;
       padding: 25px;
@@ -239,10 +224,8 @@
     /* === CREDENCIAL === */
     .ventana-credencial {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.92);
       display: none;
       justify-content: center;
@@ -267,7 +250,6 @@
       font-size: 20px;
       font-weight: bold;
       margin-bottom: 25px;
-      text-shadow: 0 0 10px rgba(255,221,0,0.5);
     }
     .datos-cred { display: none; margin-top: 20px; }
     .datos-cred.visibles { display: block; animation: aparecer 0.5s ease; }
@@ -297,7 +279,7 @@
 </head>
 <body>
 
-<!-- === LOGIN === -->
+  <!-- === LOGIN === -->
   <div id="pantallaLogin">
     <div class="caja-login">
       <h1 class="titulo-login">◈ SISTEMA DE SEGURIDAD — AGENTE ◈</h1>
@@ -306,12 +288,13 @@
       <input type="text" id="campoUsuario" value="Josetapias">
       
       <label>CONTRASEÑA:</label>
-      <input type="password" id="campoClave" placeholder="Escribe tu contraseña..." onkeypress="if(event.key==='Enter') entrar()">
+      <input type="password" id="campoClave" placeholder="Escribe tu contraseña...">
       
-      <button type="button" id="botonIngresar" onclick="entrar()">▶️ INGRESAR AL SISTEMA</button>
+      <button id="botonIngresar">▶ INGRESAR AL SISTEMA</button>
       <p id="mensajeError">❌ USUARIO O CONTRASEÑA INCORRECTOS</p>
     </div>
   </div>
+
   <!-- === PANEL PRINCIPAL === -->
   <div id="pantallaPrincipal">
     <div class="barra-superior">
@@ -320,7 +303,7 @@
         <div class="bienvenida">Bienvenido, <span class="resaltado" id="nombreUsuario">---</span></div>
       </div>
       <button class="btn-credencial" id="btnCredencial">📋 CREDENCIAL OFICIAL</button>
-      <button class="btn-salir" id="btnSalir">◀️ SALIR</button>
+      <button class="btn-salir" id="btnSalir">◀ SALIR</button>
     </div>
 
     <div class="contenedor-botones">
@@ -357,7 +340,7 @@
     </div>
 
     <div class="visor" id="visorBase">
-      <button class="btn-regresar" id="btnRegresar">◀️ REGRESAR</button>
+      <button class="btn-regresar" id="btnRegresar">◀ REGRESAR</button>
       <h3 style="color:#0f6; margin-bottom:20px" id="tituloBase">---</h3>
       <button class="btn-detalles" id="btnDetalles">🔒 MÁS DETALLES — NIVEL CONFIDENCIAL</button>
       <div class="caja-clave" id="cajaClaveBase">
@@ -371,7 +354,7 @@
     </div>
 
     <div class="visor visor-nasa" id="visorNasa">
-      <button class="btn-regresar" id="btnRegresarNasa">◀️ REGRESAR</button>
+      <button class="btn-regresar" id="btnRegresarNasa">◀ REGRESAR</button>
       <h3 style="color:#0af; text-align:center; margin-bottom:20px;">🚀 BASE NASA — ARCHIVOS CONFIDENCIALES</h3>
       <button class="btn-detalles" id="arch234">📁 ARCHIVO #234</button>
       <button class="btn-detalles" id="arch456">📁 ARCHIVO #456</button>
@@ -422,18 +405,18 @@
 
   // === CONTENIDO DE BASES ===
   const contenidoBases = {
-    marina: <h4>⚓ FLOTA NAVAL NACIONAL</h4><p>Base Naval Principal — Guayaquil, Ecuador 🇪🇨</p><p>Estado: ● ACTIVO</p><ul><li>🚢 Buque Guardacostas GC-101</li><li>🚤 Lancha Rápida LR-205</li><li>⛴️ Transporte TN-302</li><li>🔬 Investigación Submarina</li></ul>,
-    policia: <h4>🛡️ POLICÍA NACIONAL</h4><p>Sede: Quito — Distrito Metropolitano</p><p>Cobertura: Nacional</p><ul><li>🔍 Inteligencia Preventiva</li><li>🕵️ Investigación Criminal</li><li>📡 Ciberseguridad</li><li>🤝 Cooperación INTERPOL</li></ul>,
-    aerea: <h4>✈️ FUERZA AÉREA</h4><p>Base: Aeropuerto Intl. Mariscal Sucre</p><p>Estado: ● ALTA DISPONIBILIDAD</p><ul><li>🛩️ Escuadrón 21 "Cóndor"</li><li>🚁 Rescate y Transporte Táctico</li><li>🛫 Vigilancia Fronteriza</li><li>🛰️ Sistema de Radares</li></ul>,
-    mundial: <h4>🌍 BASE MUNDIAL — ALIANZAS</h4><p>Conectividad: 194 NACIONES</p><ul><li>🏛️ ONU</li><li>🌎 OEA</li><li>🔐 INTERPOL</li><li>🛡️ OTAN (Asociado)</li><li>🌐 OMS</li></ul>,
-    espacial: <h4>🛰️ COMANDO ESPACIAL</h4><p>Satélites activos: 3 + Red Internacional</p><ul><li>📡 SAT-ECU I — Observación</li><li>📡 SAT-ECU II — Comunicaciones</li><li>📡 SAT-ECU III — Clima</li><li>🔭 Colaboración NASA/ESA</li></ul>
+    marina: `<h4>⚓ FLOTA NAVAL NACIONAL</h4><p>Base Naval Principal — Guayaquil, Ecuador 🇪🇨</p><p>Estado: ● ACTIVO</p><ul><li>🚢 Buque Guardacostas GC-101</li><li>🚤 Lancha Rápida LR-205</li><li>⛴️ Transporte TN-302</li><li>🔬 Investigación Submarina</li></ul>`,
+    policia: `<h4>🛡️ POLICÍA NACIONAL</h4><p>Sede: Quito — Distrito Metropolitano</p><p>Cobertura: Nacional</p><ul><li>🔍 Inteligencia Preventiva</li><li>🕵️ Investigación Criminal</li><li>📡 Ciberseguridad</li><li>🤝 Cooperación INTERPOL</li></ul>`,
+    aerea: `<h4>✈️ FUERZA AÉREA</h4><p>Base: Aeropuerto Intl. Mariscal Sucre</p><p>Estado: ● ALTA DISPONIBILIDAD</p><ul><li>🛩️ Escuadrón 21 "Cóndor"</li><li>🚁 Rescate y Transporte Táctico</li><li>🛫 Vigilancia Fronteriza</li><li>🛰️ Sistema de Radares</li></ul>`,
+    mundial: `<h4>🌍 BASE MUNDIAL — ALIANZAS</h4><p>Conectividad: 194 NACIONES</p><ul><li>🏛️ ONU</li><li>🌎 OEA</li><li>🔐 INTERPOL</li><li>🛡️ OTAN (Asociado)</li><li>🌐 OMS</li></ul>`,
+    espacial: `<h4>🛰️ COMANDO ESPACIAL</h4><p>Satélites activos: 3 + Red Internacional</p><ul><li>📡 SAT-ECU I — Observación</li><li>📡 SAT-ECU II — Comunicaciones</li><li>📡 SAT-ECU III — Clima</li><li>🔭 Colaboración NASA/ESA</li></ul>`
   };
 
   const contenidoArchivos = {
-    "234": <h4>📁 ARCHIVO #234</h4><p>Observación de asteroides cercanos a la Tierra.</p>,
-    "456": <h4>📁 ARCHIVO #456</h4><p>Tecnología de propulsión espacial.</p>,
-    "384": <h4>📁 ARCHIVO #384</h4><p>Datos de cambio climático 2000-2026.</p>,
-    "278": <h4>📁 ARCHIVO #278</h4><p>Plan de base lunar permanente 2028-2035.</p>
+    "234": `<h4>📁 ARCHIVO #234</h4><p>Observación de asteroides cercanos a la Tierra.</p>`,
+    "456": `<h4>📁 ARCHIVO #456</h4><p>Tecnología de propulsión espacial.</p>`,
+    "384": `<h4>📁 ARCHIVO #384</h4><p>Datos de cambio climático 2000-2026.</p>`,
+    "278": `<h4>📁 ARCHIVO #278</h4><p>Plan de base lunar permanente 2028-2035.</p>`
   };
 
   const titulosBases = {
@@ -482,19 +465,19 @@
   let baseActiva = "";
 
   // === FUNCIÓN DE INGRESO — ARREGLADA ===
-   function entrar() {
-     const u = document.getElementById("campoUsuario").value.trim();
-     const c = document.getElementById("campoClave").value.trim();
-     
-     if (u === USUARIO_VALIDO && c === CLAVE_VALIDA) {
-       document.getElementById("pantallaLogin").style.display = "none";
-       document.getElementById("pantallaPrincipal").style.display = "block";
-       document.getElementById("nombreUsuario").textContent = u;
-       document.getElementById("mensajeError").style.display = "none";
-     } else {
-       document.getElementById("mensajeError").style.display = "block";
-     }
-   }
+  function entrar() {
+    const u = campoUsuario.value.trim();
+    const c = campoClave.value.trim();
+    
+    if (u === USUARIO_VALIDO && c === CLAVE_VALIDA) {
+      pantallaLogin.style.display = "none";
+      pantallaPrincipal.style.display = "block";
+      nombreUsuario.textContent = u;
+      mensajeError.style.display = "none";
+    } else {
+      mensajeError.style.display = "block";
+    }
+  }
 
   function salir() {
     pantallaPrincipal.style.display = "none";
@@ -551,4 +534,16 @@
     numArch.textContent = num;
     cajaClaveArch.classList.add("visible");
     okArch.style.display = "none";
-    noArch.s
+    noArch.style.display = "none";
+    textoArchivo.innerHTML = "";
+    claveArchivo.value = "";
+  }
+
+  function verificarArchivo() {
+    if (claveArchivo.value.trim() === CLAVE_DETALLES) {
+      okArch.style.display = "block";
+      noArch.style.display = "none";
+      textoArchivo.innerHTML = contenidoArchivos[numArch.textContent] || "<p>Sin contenido</p>";
+    } else {
+      noArch.style.display = "block";
+      okArch.style.di
