@@ -476,7 +476,7 @@
         <div class="nombre-caso">📁 CASO 34555</div>
         <button class="boton-verde" onclick="verificarCasos('caso-34555', this)">🔍 VER DETALLES</button>
         <div id="caso-34555" class="vista-previa">
-          <img src="https://i.imgur.com/5VrXsT3.jpg" alt="Caso 34555 — Imagen Clasificada">
+          <img src="555.jpg" alt="Caso 34555 — Imagen Clasificada">
         </div>
       </div>
 
@@ -573,14 +573,14 @@
   <div class="caja-ventana caja-credencial">
     <h2 class="titulo-ventana titulo-credencial">>>> CREDENCIAL_OFICIAL <<<</h2>
     <div class="contenido">
-      <p><strong>NOMBRE_COMPLETO:</strong> José Rudencio Tapias</p>
+      <p><strong>NOMBRE_COMPLETO:</strong> Jose tapias</p>
       <p><strong>USUARIO:</strong> Josetapias</p>
-      <p><strong>CÓDIGO_DE_AGENTE:</strong> AGENTE-22-EC-001</p>
-      <p><strong>NACIONALIDAD:</strong> Ecuatoriana 🇪🇨</p>
+      <p><strong>CÓDIGO_DE_AGENTE:</strong> AGENTE-22-CL-001</p>
+      <p><strong>NACIONALIDAD:</strong> Colombiana 🇪🇨</p>
       <p><strong>NIVEL_DE_AUTORIZACIÓN:</strong> ⭐⭐⭐⭐⭐ MÁXIMA</p>
       <p><strong>ESTADO:</strong> ● VIGENTE_Y_ACTIVA</p>
-      <p><strong>CORREO:</strong> arestapias2024@gmail.com</p>
-      <p><strong>EMISIÓN:</strong> 2026-09-21</p>
+      <p><strong>CORREO:</strong> hackerInterpool</p>
+      <p><strong>EMISIÓN:</strong> 2025-04-29</p>
     </div>
     <button class="btn-cerrar-ventana"><< CERRAR >></button>
   </div>
@@ -658,23 +658,23 @@ document.getElementById("encabezado-casos")?.addEventListener("click", () => {
   document.getElementById("icono-casos").textContent = 
     document.getElementById("contenido-casos").classList.contains("visible") ? "▲" : "▼";
 });
-
-// === VENTANA PERSONALIZADA — SIN NOMBRE DEL SITIO ===
+ 
+// === SISTEMA COMPLETO DE VERIFICACIÓN ===
 const CLAVE_CASOS = "12345";
 let casoActivo = null;
 let botonActivo = null;
 
-// Crear la ventana solo una vez
+// Crear ventana solo una vez
 function crearVentanaCredenciales() {
   if (document.getElementById("ventana-clave-casos")) return;
 
   const ventanaHTML = `
     <div id="ventana-clave-casos" style="
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center;
+      background: rgba(0,0,0,0.92); display: none; justify-content: center; align-items: center;
       z-index: 99999;
     ">
-    <div style="
+      <div style="
         background: #001100; border: 2px solid #0f0; padding: 30px 25px; border-radius: 12px;
         box-shadow: 0 0 25px #0f0; width: 90%; max-width: 380px; text-align: center;
         font-family: 'Courier New', Courier, monospace;
@@ -700,7 +700,6 @@ function crearVentanaCredenciales() {
       </div>
     </div>
 
-    <!-- VENTANA DE RESULTADO -->
     <div id="ventana-resultado" style="
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.92); display: none; justify-content: center; align-items: center;
@@ -720,7 +719,6 @@ function crearVentanaCredenciales() {
   `;
   document.body.insertAdjacentHTML("beforeend", ventanaHTML);
 
-  // Eventos
   document.getElementById("btn-cancelar-clave").onclick = cerrarVentana;
   document.getElementById("btn-aceptar-clave").onclick = verificarClave;
   document.getElementById("entrada-clave-casos").addEventListener("keypress", e => {
@@ -729,8 +727,9 @@ function crearVentanaCredenciales() {
   document.getElementById("btn-cerrar-resultado").onclick = cerrarResultado;
 }
 
-// Abrir ventana desde cada botón
+// Función que llama el botón
 function verificarCasos(idCaso, boton) {
+  console.log("Botón presionado:", idCaso); // Para verificar
   crearVentanaCredenciales();
   casoActivo = idCaso;
   botonActivo = boton;
@@ -740,7 +739,6 @@ function verificarCasos(idCaso, boton) {
   document.getElementById("entrada-clave-casos").focus();
 }
 
-// Cerrar ventana de ingreso
 function cerrarVentana() {
   const v = document.getElementById("ventana-clave-casos");
   if (v) v.style.display = "none";
@@ -748,12 +746,10 @@ function cerrarVentana() {
   botonActivo = null;
 }
 
-// Cerrar ventana de resultado
 function cerrarResultado() {
   document.getElementById("ventana-resultado").style.display = "none";
 }
 
-// Mostrar mensaje personalizado
 function mostrarResultado(esExito, mensaje) {
   const ventana = document.getElementById("ventana-resultado");
   const caja = document.getElementById("caja-resultado");
@@ -780,9 +776,9 @@ function mostrarResultado(esExito, mensaje) {
   ventana.style.display = "flex";
 }
 
-// Comprobar contraseña
 function verificarClave() {
   const ingresada = document.getElementById("entrada-clave-casos").value.trim();
+  console.log("Clave ingresada:", ingresada); // Para verificar
   
   if (ingresada === CLAVE_CASOS) {
     cerrarVentana();
