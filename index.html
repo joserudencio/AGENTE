@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SISTEMA DE SEGURIDAD — ACCESO TOTAL</title>
+  <title>SISTEMA DE SEGURIDAD — AGENTE</title>
   <style>
     * {margin:0;padding:0;box-sizing:border-box;font-family:'Courier New',monospace}
     
@@ -22,42 +22,32 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    /* === LOGIN PRINCIPAL === */
-    .caja-login {
+    /* === LOGIN === */
+    #pantallaLogin {
       background: rgba(0, 20, 10, 0.9);
-      border: 2px solid #00ff66;
-      border-radius: 12px;
+      border: 3px solid #00ff66;
+      border-radius: 15px;
       padding: 40px 30px;
       width: 100%;
       max-width: 450px;
       margin: 0 auto;
-      box-shadow: 0 0 30px rgba(0, 255, 100, 0.25), inset 0 0 15px rgba(0, 255, 100, 0.1);
+      box-shadow: 0 0 30px rgba(0, 255, 100, 0.3);
     }
 
-    .encabezado {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .logo {
+    .titulo-login {
       color: #00ff66;
-      font-size: 24px;
+      text-align: center;
+      font-size: 22px;
       font-weight: bold;
-      text-shadow: 0 0 10px rgba(0, 255, 100, 0.6);
-      margin-bottom: 5px;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px rgba(0,255,100,0.4);
     }
 
-    .subtitulo {
-      color: #66aa77;
-      font-size: 12px;
-      letter-spacing: 2px;
-    }
-
-    .etiqueta {
+    label {
       color: #88ffaa;
-      font-size: 14px;
-      margin-bottom: 6px;
       display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
     }
 
     input {
@@ -74,47 +64,40 @@
     input:focus {
       outline: none;
       border-color: #00ff66;
-      box-shadow: 0 0 12px rgba(0, 255, 100, 0.4);
+      box-shadow: 0 0 12px rgba(0,255,100,0.4);
     }
 
-    .btn-ingresar {
+    #botonIngresar {
       width: 100%;
-      padding: 14px;
+      padding: 15px;
       background: linear-gradient(135deg, #008833, #00ff66);
       border: none;
       border-radius: 6px;
       color: #000;
-      font-size: 17px;
+      font-size: 18px;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 0 15px rgba(0, 255, 100, 0.3);
+      transition: 0.2s;
     }
 
-    .btn-ingresar:hover {
+    #botonIngresar:hover {
       transform: scale(1.02);
-      box-shadow: 0 0 25px rgba(0, 255, 100, 0.6);
+      box-shadow: 0 0 20px rgba(0,255,100,0.5);
     }
 
-    .error {
+    #mensajeError {
       color: #ff4444;
       margin-top: 15px;
-      display: none;
       text-align: center;
       font-weight: bold;
+      display: none;
     }
 
     /* === PANEL PRINCIPAL === */
-    .panel-db {
-      background: rgba(0, 15, 10, 0.95);
-      border: 2px solid #00ff66;
-      border-radius: 12px;
-      padding: 30px;
-      width: 100%;
-      max-width: 980px;
-      margin: 0 auto;
-      box-shadow: 0 0 40px rgba(0, 255, 100, 0.2);
+    #pantallaPrincipal {
       display: none;
+      max-width: 1000px;
+      margin: 0 auto;
       animation: aparecer 0.4s ease;
     }
 
@@ -129,17 +112,15 @@
       gap: 12px;
     }
 
-    .titulo-db {
+    .titulo-panel {
       color: #00ff66;
       font-size: 18px;
       font-weight: bold;
-      text-shadow: 0 0 8px rgba(0, 255, 100, 0.4);
     }
 
-    .info-usuario {
+    .bienvenida {
       color: #88ffaa;
-      font-size: 14px;
-      margin-top: 4px;
+      margin-top: 5px;
     }
 
     .resaltado {
@@ -151,36 +132,34 @@
       background: linear-gradient(135deg, #ffcc00, #ffdd44);
       border: none;
       border-radius: 20px;
-      padding: 9px 18px;
+      padding: 10px 20px;
       color: #000;
-      font-size: 13px;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 0 12px rgba(255, 204, 0, 0.4);
+      transition: 0.2s;
     }
 
     .btn-credencial:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(255, 204, 0, 0.7);
+      box-shadow: 0 0 15px rgba(255,204,0,0.5);
     }
 
     .btn-salir {
       background: transparent;
       border: 1px solid #ff4444;
       color: #ff6666;
-      padding: 9px 18px;
+      padding: 10px 20px;
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
-      transition: 0.3s;
+      transition: 0.2s;
     }
 
     .btn-salir:hover {
-      background: rgba(255, 68, 68, 0.15);
+      background: rgba(255,68,68,0.15);
     }
 
-    /* === BOTONES BASES DE DATOS === */
+    /* === BOTONES BASES === */
     .contenedor-botones {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -188,21 +167,20 @@
       margin-bottom: 30px;
     }
 
-    .boton-db {
+    .boton-base {
       background: rgba(0, 30, 15, 0.6);
       border: 2px solid #00aa44;
       border-radius: 10px;
       padding: 20px;
       text-align: center;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.2s;
     }
 
-    .boton-db:hover {
+    .boton-base:hover {
       border-color: #00ff66;
       transform: translateY(-3px);
-      box-shadow: 0 0 20px rgba(0, 255, 100, 0.35);
-      background: rgba(0, 50, 25, 0.7);
+      box-shadow: 0 0 20px rgba(0,255,100,0.3);
     }
 
     .boton-nasa {
@@ -212,56 +190,30 @@
 
     .boton-nasa:hover {
       border-color: #00aaff;
-      box-shadow: 0 0 20px rgba(0, 170, 255, 0.4);
-      background: rgba(0, 30, 90, 0.7);
+      box-shadow: 0 0 20px rgba(0,170,255,0.3);
     }
 
-    .icono-db {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
+    .icono { font-size: 30px; margin-bottom: 8px; }
+    .nombre-base { color: #00ff66; font-weight: bold; margin-bottom: 4px; }
+    .nombre-nasa { color: #00aaff; }
+    .desc { color: #66aa77; font-size: 11px; }
+    .desc-nasa { color: #66aaff; }
 
-    .nombre-db {
-      color: #00ff66;
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
-
-    .nombre-nasa {
-      color: #00aaff;
-    }
-
-    .descripcion-db {
-      color: #66aa77;
-      font-size: 11px;
-    }
-
-    .descripcion-nasa {
-      color: #66aaff;
-    }
-
-    /* === VISOR GENERAL === */
+    /* === VISORES === */
     .visor {
-      margin-top: 25px;
-      padding: 25px;
       background: rgba(0, 20, 10, 0.5);
-      border-radius: 10px;
       border: 1px solid #004422;
+      border-radius: 10px;
+      padding: 25px;
+      margin-top: 25px;
       display: none;
       animation: aparecer 0.4s ease;
     }
 
-    .visor.visor-activo {
-      display: block;
-    }
+    .visor.activo { display: block; }
+    .visor-nasa { border-color: #0066cc; background: rgba(0,15,40,0.5); }
 
-    .visor-nasa {
-      border-color: #0066cc;
-      background: rgba(0, 15, 40, 0.5);
-    }
-
-    .cerrar-visor {
+    .btn-regresar {
       background: transparent;
       border: 1px solid #ffaa00;
       color: #ffcc00;
@@ -270,11 +222,6 @@
       cursor: pointer;
       margin-bottom: 15px;
       font-weight: bold;
-      transition: 0.3s;
-    }
-
-    .cerrar-visor:hover {
-      background: rgba(255, 170, 0, 0.15);
     }
 
     .btn-detalles {
@@ -288,143 +235,59 @@
       font-weight: bold;
       cursor: pointer;
       margin-top: 10px;
-      transition: 0.3s;
+      transition: 0.2s;
     }
 
-    .btn-detalles:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 20px rgba(0, 136, 255, 0.4);
-    }
+    .btn-detalles:hover { transform: scale(1.02); }
 
-    .btn-archivo {
-      background: linear-gradient(135deg, #4400aa, #8844ff);
-      margin: 8px 0;
-    }
-
-    .ventana-clave {
+    .caja-clave {
       margin-top: 20px;
       padding: 25px;
-      background: rgba(30, 30, 60, 0.8);
+      background: rgba(30,30,60,0.8);
       border: 2px solid #ffaa00;
       border-radius: 10px;
       display: none;
     }
 
-    .ventana-clave.visible {
-      display: block;
-      animation: aparecer 0.4s ease;
-    }
+    .caja-clave.visible { display: block; }
+    .caja-nasa { border-color: #00aaff; }
 
-    .ventana-nasa {
-      border-color: #00aaff;
-      background: rgba(0, 20, 60, 0.85);
-    }
+    .mensaje-ok { color: #0f6; margin-top: 12px; display: none; font-weight: bold; }
+    .mensaje-no { color: #f44; margin-top: 12px; display: none; font-weight: bold; }
 
-    .ventana-clave h4 {
-      color: #ffcc00;
-      margin-bottom: 15px;
-      text-align: center;
-    }
-
-    .ventana-nasa h4 {
-      color: #00ccff;
-    }
-
-    .btn-verificar {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #0066cc, #00ccff);
-      border: none;
-      border-radius: 6px;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: 0.3s;
-    }
-
-    .btn-verificar:hover {
-      box-shadow: 0 0 15px rgba(0, 204, 255, 0.4);
-    }
-
-    .mensaje-acceso {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 6px;
-      text-align: center;
-      font-weight: bold;
-      display: none;
-    }
-
-    .acceso-ok {
-      background: rgba(0, 255, 100, 0.1);
-      border: 1px solid #00ff66;
-      color: #00ff66;
-    }
-
-    .acceso-denegado {
-      background: rgba(255, 68, 68, 0.1);
-      border: 1px solid #ff4444;
-      color: #ff6666;
-    }
-
-    .contenido-detalles {
+    .contenido-secreto {
       margin-top: 20px;
       padding: 25px;
-      background: rgba(0, 30, 60, 0.6);
+      background: rgba(0,30,60,0.6);
       border: 2px solid #00ff66;
       border-radius: 10px;
       display: none;
+      color: #afc;
+      line-height: 1.8;
     }
 
-    .contenido-detalles.visible {
-      display: block;
-      animation: aparecer 0.5s ease;
-    }
+    .contenido-secreto.visible { display: block; animation: aparecer 0.5s ease; }
+    .contenido-secreto h4 { color: #ffd700; margin: 15px 0 8px; }
+    .contenido-secreto ul { margin-left: 20px; margin-bottom: 15px; }
+    .contenido-secreto li { margin-bottom: 5px; }
 
-    .contenido-detalles h3 {
-      color: #00ccff;
-      margin-bottom: 15px;
-      text-align: center;
-    }
-
-    .subarchivos {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .espacio-img {
-      border: 2px dashed #0066cc;
-      border-radius: 8px;
-      padding: 30px;
-      text-align: center;
-      color: #66aaff;
-      margin: 15px 0;
-      background: rgba(0, 100, 200, 0.05);
-    }
-
-    /* === VENTANA CREDENCIAL OFICIAL === */
+    /* === CREDENCIAL === */
     .ventana-credencial {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.92);
+      background: rgba(0,0,0,0.92);
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      z-index: 999;
       padding: 15px;
       overflow-y: auto;
     }
 
-    .ventana-credencial.activa {
-      display: flex;
-      animation: aparecer 0.4s ease;
-    }
+    .ventana-credencial.activa { display: flex; }
 
     .caja-credencial {
       background: linear-gradient(180deg, #1a1a00, #2b2b00, #1a1a00);
@@ -433,309 +296,289 @@
       padding: 35px;
       max-width: 520px;
       width: 100%;
-      box-shadow: 0 0 50px rgba(255, 221, 0, 0.35), inset 0 0 30px rgba(255, 221, 0, 0.1);
+      box-shadow: 0 0 50px rgba(255,221,0,0.35);
     }
 
-    .encabezado-credencial {
-      text-align: center;
-      margin-bottom: 25px;
-      border-bottom: 2px solid #ffdd00;
-      padding-bottom: 20px;
-    }
-
-    .sello-oficial {
-      color: #ffdd00;
-      font-size: 12px;
-      letter-spacing: 3px;
-      margin-bottom: 8px;
-    }
-
-    .titulo-credencial {
+    .titulo-cred {
       color: #fff;
+      text-align: center;
       font-size: 20px;
       font-weight: bold;
-      text-shadow: 0 0 10px rgba(255, 221, 0, 0.6);
+      margin-bottom: 25px;
+      text-shadow: 0 0 10px rgba(255,221,0,0.5);
     }
 
-    .subtitulo-credencial {
-      color: #ffcc66;
-      font-size: 12px;
-      margin-top: 5px;
+    .datos-cred {
+      display: none;
+      margin-top: 20px;
     }
 
-    .seccion-titulo {
-      color: #ffcc66;
-      font-size: 14px;
-      font-weight: bold;
-      margin: 20px 0 10px 0;
-      border-bottom: 1px solid #665500;
-      padding-bottom: 5px;
-    }
+    .datos-cred.visibles { display: block; animation: aparecer 0.5s ease; }
 
-    .bloque-datos {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid #ccaa00;
-      border-radius: 10px;
-      padding: 18px;
-      margin-bottom: 12px;
-    }
-
-    .fila-dato {
+    .fila {
       display: flex;
       justify-content: space-between;
-      padding: 9px 0;
-      border-bottom: 1px dashed #444400;
+      padding: 10px 0;
+      border-bottom: 1px dashed #444;
       flex-wrap: wrap;
       gap: 5px;
     }
 
-    .fila-dato:last-child { border-bottom: none; }
-
-    .etiqueta-dato {
-      color: #ffdd00;
-      font-weight: bold;
-      font-size: 13px;
-    }
-
-    .valor-dato {
-      color: #ffffcc;
-      font-size: 13px;
-      text-align: right;
-    }
-
-    .valor-dato.destacado {
-      color: #00ff66;
-      font-weight: bold;
-      text-shadow: 0 0 5px rgba(0, 255, 100, 0.4);
-    }
-
-    .valor-dato.nivel-max {
-      color: #ffdd00;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .barra-nivel {
-      width: 100%;
-      height: 18px;
-      background: #222200;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 5px;
-    }
-
-    .relleno-nivel {
-      height: 100%;
-      background: linear-gradient(90deg, #ffcc00, #ffff00);
-      width: 100%;
-      border-radius: 10px;
-      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
-    }
-
-    .sello-vigente {
-      text-align: center;
-      margin: 15px 0;
-      padding: 12px;
-      border: 2px solid #00ff66;
-      border-radius: 8px;
-      color: #00ff66;
-      font-weight: bold;
-      background: rgba(0, 255, 100, 0.08);
-    }
-
-    .firma-seccion {
-      margin-top: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      font-size: 11px;
-      color: #887700;
-      border-top: 1px solid #444400;
-      padding-top: 15px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .datos-credencial {
-      display: none;
-      margin-top: 20px;
-      animation: aparecer 0.5s ease;
-    }
-
-    .datos-credencial.visibles {
-      display: block;
-    }
-
-    .btn-verificar-clave {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #cc9900, #ffdd00);
-      border: none;
-      border-radius: 8px;
-      color: #000;
-      font-weight: bold;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: 0.3s;
-    }
-
-    .btn-verificar-clave:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 20px rgba(255, 221, 0, 0.5);
-    }
+    .etiqueta { color: #ffdd00; font-weight: bold; }
+    .valor { color: #ffffcc; }
+    .valor.destacado { color: #0f6; font-weight: bold; }
 
     .btn-cerrar {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
       background: transparent;
-      border: 1px solid #ff6666;
-      color: #ff6666;
-      padding: 10px 20px;
+      border: 1px solid #f44;
+      color: #f66;
       border-radius: 6px;
       cursor: pointer;
-      margin-top: 20px;
       font-weight: bold;
-      width: 100%;
-      transition: 0.3s;
-    }
-
-    .btn-cerrar:hover {
-      background: rgba(255, 68, 68, 0.15);
     }
   </style>
 </head>
 <body>
 
-  <!-- === INICIO DE SESIÓN === -->
-  <div class="caja-login" id="pantallaLogin">
-    <div class="encabezado">
-      <div class="logo">◈ SISTEMA DE SEGURIDAD ◈</div>
-      <p class="subtitulo">ACCESO RESTRINGIDO • NIVEL AUTORIZADO</p>
-    </div>
-
-    <label class="etiqueta">USUARIO:</label>
-    <input type="text" id="usuario" placeholder="Escriba su usuario...">
-
-    <label class="etiqueta">CONTRASEÑA:</label>
-    <input type="password" id="clave" placeholder="Escriba su contraseña...">
-
-    <button class="btn-ingresar" id="botonIngresar">▶️ INGRESAR AL SISTEMA</button>
-    <p class="error" id="errorCredencial">❌ USUARIO O CONTRASEÑA INCORRECTOS</p>
+  <!-- === LOGIN === -->
+  <div id="pantallaLogin">
+    <h1 class="titulo-login">◈ SISTEMA DE SEGURIDAD ◈</h1>
+    
+    <label>USUARIO:</label>
+    <input type="text" id="campoUsuario" placeholder="Escribe tu usuario...">
+    
+    <label>CONTRASEÑA:</label>
+    <input type="password" id="campoClave" placeholder="Escribe tu contraseña...">
+    
+    <button id="botonIngresar">▶️ INGRESAR AL SISTEMA</button>
+    <p id="mensajeError">❌ USUARIO O CONTRASEÑA INCORRECTOS</p>
   </div>
 
   <!-- === PANEL PRINCIPAL === -->
-  <div class="panel-db" id="pantallaDB">
+  <div id="pantallaPrincipal">
     <div class="barra-superior">
       <div>
-        <div class="titulo-db">◈ SELECCIÓN DE BASE DE DATOS</div>
-        <div class="info-usuario">Bienvenido, <span class="resaltado" id="nombreUsuario">---</span> • Sesión Activa</div>
+        <div class="titulo-panel">◈ SELECCIÓN DE BASE DE DATOS</div>
+        <div class="bienvenida">Bienvenido, <span class="resaltado" id="nombreUsuario">---</span></div>
       </div>
-      <button class="btn-credencial" id="botonCredencial">📋 CREDENCIAL OFICIAL</button>
-      <button class="btn-salir" id="botonSalir">◀️ SALIR</button>
+      <button class="btn-credencial" id="btnCredencial">📋 CREDENCIAL OFICIAL</button>
+      <button class="btn-salir" id="btnSalir">◀️ SALIR</button>
     </div>
 
-    <!-- BOTONES DE BASES -->
+    <!-- BOTONES BASES -->
     <div class="contenedor-botones">
-      <div class="boton-db" id="botonMarina">
-        <div class="icono-db">⚓</div>
-        <div class="nombre-db">BASE MARINA</div>
-        <div class="descripcion-db">Flota Naval — Operaciones Marítimas</div>
+      <div class="boton-base" id="btnMarina">
+        <div class="icono">⚓</div>
+        <div class="nombre-base">BASE MARINA</div>
+        <div class="desc">Flota Naval — Operaciones Marítimas</div>
       </div>
-      <div class="boton-db" id="botonPolicia">
-        <div class="icono-db">🛡️</div>
-        <div class="nombre-db">POLICÍA NACIONAL</div>
-        <div class="descripcion-db">Seguridad — Inteligencia</div>
+      <div class="boton-base" id="btnPolicia">
+        <div class="icono">🛡️</div>
+        <div class="nombre-base">POLICÍA NACIONAL</div>
+        <div class="desc">Seguridad — Inteligencia</div>
       </div>
-      <div class="boton-db" id="botonAerea">
-        <div class="icono-db">✈️</div>
-        <div class="nombre-db">FUERZA AÉREA</div>
-        <div class="descripcion-db">Defensa — Flota de Combate</div>
+      <div class="boton-base" id="btnAerea">
+        <div class="icono">✈️</div>
+        <div class="nombre-base">FUERZA AÉREA</div>
+        <div class="desc">Defensa — Flota de Combate</div>
       </div>
-      <div class="boton-db" id="botonMundial">
-        <div class="icono-db">🌍</div>
-        <div class="nombre-db">BASE MUNDIAL</div>
-        <div class="descripcion-db">Red Internacional — Alianzas</div>
+      <div class="boton-base" id="btnMundial">
+        <div class="icono">🌍</div>
+        <div class="nombre-base">BASE MUNDIAL</div>
+        <div class="desc">Red Internacional — Alianzas</div>
       </div>
-      <div class="boton-db" id="botonEspacial">
-        <div class="icono-db">🛰️</div>
-        <div class="nombre-db">COMANDO ESPACIAL</div>
-        <div class="descripcion-db">Satelital — Vigilancia Orbital</div>
+      <div class="boton-base" id="btnEspacial">
+        <div class="icono">🛰️</div>
+        <div class="nombre-base">COMANDO ESPACIAL</div>
+        <div class="desc">Satelital — Vigilancia Orbital</div>
       </div>
-      <div class="boton-db boton-nasa" id="botonNasa">
-        <div class="icono-db">🚀</div>
-        <div class="nombre-db nombre-nasa">BASE NASA</div>
-        <div class="descripcion-db descripcion-nasa">Proyectos Espaciales — Confidencial</div>
+      <div class="boton-base boton-nasa" id="btnNasa">
+        <div class="icono">🚀</div>
+        <div class="nombre-base nombre-nasa">BASE NASA</div>
+        <div class="desc desc-nasa">Proyectos Espaciales — Confidencial</div>
       </div>
     </div>
 
     <!-- VISOR BASES -->
     <div class="visor" id="visorBase">
-      <button class="cerrar-visor" id="botonCerrarVisor">◀️ REGRESAR</button>
-      <h3 style="color:#00ff66; margin-bottom:15px" id="tituloBase">---</h3>
-      <img id="imgBase" class="imagen-base" alt="Base de Datos">
-      <button class="btn-detalles" id="botonDetalles">🔒 MÁS DETALLES — NIVEL CONFIDENCIAL</button>
+      <button class="btn-regresar" id="btnRegresar">◀️ REGRESAR</button>
+      <h3 style="color:#0f6; margin-bottom:20px" id="tituloBase">---</h3>
+      <button class="btn-detalles" id="btnDetalles">🔒 MÁS DETALLES — NIVEL CONFIDENCIAL</button>
       
-      <div class="ventana-clave" id="ventanaClave">
-        <h4>🔐 AUTORIZACIÓN REQUERIDA</h4>
-        <label class="etiqueta">Contraseña de nivel confidencial:</label>
-        <input type="password" id="claveDet" placeholder="Escriba la contraseña...">
-        <button class="btn-verificar" id="botonVerDet">✓ VERIFICAR</button>
-        <div class="mensaje-acceso acceso-ok" id="okDet">✅ ACCESO AUTORIZADO</div>
-        <div class="mensaje-acceso acceso-denegado" id="noDet">❌ CONTRASEÑA INCORRECTA</div>
-        <div class="contenido-detalles" id="detallesBase">
-          <h3>📄 INFORMACIÓN CONFIDENCIAL</h3>
-          <p style="color:#aaffaa; text-align:center; padding:20px;">Contenido restringido — Solo personal autorizado<br>Edita el código para agregar datos reales</p>
+      <div class="caja-clave" id="cajaClaveBase">
+        <label>Contraseña de autorización:</label>
+        <input type="password" id="claveBase" placeholder="Escribe la clave...">
+        <button class="btn-detalles" id="btnVerBase">✓ VERIFICAR</button>
+        <p class="mensaje-ok" id="okBase">✅ ACCESO AUTORIZADO</p>
+        <p class="mensaje-no" id="noBase">❌ CLAVE INCORRECTA</p>
+        <div class="contenido-secreto" id="contenidoBase">
+          <!-- AQUÍ SE CARGA EL CONTENIDO DE CADA BASE -->
         </div>
       </div>
     </div>
 
     <!-- VISOR NASA -->
     <div class="visor visor-nasa" id="visorNasa">
-      <button class="cerrar-visor" id="botonCerrarNasa">◀️ REGRESAR</button>
-      <h3 style="color:#00aaff; margin-bottom:20px; text-align:center;">🚀 BASE DE DATOS — NASA</h3>
-      <p style="color:#66aaff; text-align:center; margin-bottom:20px;">Seleccione el archivo confidencial</p>
-      <div class="subarchivos">
-        <button class="btn-detalles btn-archivo" id="archivo234">📁 ARCHIVO #234</button>
-        <button class="btn-detalles btn-archivo" id="archivo456">📁 ARCHIVO #456</button>
-        <button class="btn-detalles btn-archivo" id="archivo384">📁 ARCHIVO #384</button>
-        <button class="btn-detalles btn-archivo" id="archivo278">📁 ARCHIVO #278</button>
-      </div>
+      <button class="btn-regresar" id="btnRegresarNasa">◀️ REGRESAR</button>
+      <h3 style="color:#0af; text-align:center; margin-bottom:20px;">🚀 BASE NASA — ARCHIVOS CONFIDENCIALES</h3>
+      <button class="btn-detalles" id="arch234">📁 ARCHIVO #234</button>
+      <button class="btn-detalles" id="arch456">📁 ARCHIVO #456</button>
+      <button class="btn-detalles" id="arch384">📁 ARCHIVO #384</button>
+      <button class="btn-detalles" id="arch278">📁 ARCHIVO #278</button>
       
-      <div class="ventana-clave ventana-nasa" id="ventanaArchivo">
-        <h4>🔐 ACCESO RESTRINGIDO — ARCHIVO #<span id="numArch">---</span></h4>
-        <label class="etiqueta">Contraseña de autorización:</label>
-        <input type="password" id="claveArch" placeholder="Escriba la contraseña...">
-        <button class="btn-verificar" id="botonVerArch">✓ VERIFICAR</button>
-        <div class="mensaje-acceso acceso-ok" id="okArch">✅ ACCESO CONCEDIDO — Bienvenido Agente</div>
-        <div class="mensaje-acceso acceso-denegado" id="noArch">❌ ACCESO DENEGADO</div>
-        <div class="contenido-detalles" id="contenidoArch">
-          <h3>📄 ARCHIVO CONFIDENCIAL</h3>
-          <div class="espacio-img">📎 Pega aquí tu imagen o enlace</div>
-          <p style="color:#aaffff; text-align:center;">Estado: <span style="color:#00ff66; font-weight:bold;">DESBLOQUEADO</span></p>
+      <div class="caja-clave caja-nasa" id="cajaClaveArch">
+        <h4 style="color:#0af; margin-bottom:15px;">🔐 ACCESO RESTRINGIDO — ARCHIVO #<span id="numArch">---</span></h4>
+        <label>Contraseña de autorización:</label>
+        <input type="password" id="claveArchivo" placeholder="Escribe la clave...">
+        <button class="btn-detalles" id="btnVerArch">✓ VERIFICAR</button>
+        <p class="mensaje-ok" id="okArch">✅ ACCESO CONCEDIDO</p>
+        <p class="mensaje-no" id="noArch">❌ ACCESO DENEGADO</p>
+        <div class="contenido-secreto" id="contenidoArch">
+          <h3 style="color:#0ff; text-align:center; margin-bottom:20px;">📄 ARCHIVO DESBLOQUEADO</h3>
+          <div id="textoArchivo"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- === CREDENCIAL OFICIAL COMPLETA === -->
+  <!-- === CREDENCIAL OFICIAL === -->
   <div class="ventana-credencial" id="ventanaCredencial">
     <div class="caja-credencial">
-      <div class="encabezado-credencial">
-        <div class="sello-oficial">DOCUMENTO OFICIAL • NO TRANSFERIBLE</div>
-        <h2 class="titulo-credencial">★ CREDENCIAL DE AGENTE ★</h2>
-        <p class="subtitulo-credencial">SISTEMA DE SEGURIDAD INTERNA — NIVEL EJECUTIVO</p>
-      </div>
-
-      <label class="etiqueta" style="color:#ffdd00;">🔐 CÓDIGO DE AUTORIZACIÓN:</label>
-      <input type="password" id="claveCred" placeholder="Escriba su contraseña especial...">
-      <button class="btn-verificar-clave" id="botonVerCred">✓ CONFIRMAR IDENTIDAD</button>
+      <h2 class="titulo-cred">★ CREDENCIAL DE AGENTE ★</h2>
       
-      <div class="mensaje-acceso acceso-ok" id="okCred">✅ IDENTIDAD VERIFICADA — DOCUMENTO DESBLOQUEADO</div>
-      <div class="mensaje-acceso acceso-denegado" id="noCred">❌ CÓDIGO INCORRECTO — ACCESO DENEGADO</div>
+      <label>Código de autorización:</label>
+      <input type="password" id="claveCredencial" placeholder="Escribe tu código...">
+      <button class="btn-detalles" id="btnVerCred">✓ CONFIRMAR IDENTIDAD</button>
+      <p class="mensaje-ok" id="okCred">✅ IDENTIDAD VERIFICADA</p>
+      <p class="mensaje-no" id="noCred">❌ CÓDIGO INCORRECTO</p>
+      
+      <div class="datos-cred" id="datosCred">
+        <div class="fila"><span class="etiqueta">Nombre:</span><span class="valor">José Rudencio Tapias</span></div>
+        <div class="fila"><span class="etiqueta">Usuario:</span><span class="valor destacado">Josetapias</span></div>
+        <div class="fila"><span class="etiqueta">Código Agente:</span><span class="valor destacado">AGENTE-22-EC-001</span></div>
+        <div class="fila"><span class="etiqueta">Nacionalidad:</span><span class="valor">Ecuatoriana 🇪🇨</span></div>
+        <div class="fila"><span class="etiqueta">Nivel:</span><span class="valor destacado">MÁXIMA AUTORIZACIÓN ⭐⭐⭐⭐⭐</span></div>
+        <div class="fila"><span class="etiqueta">Estado:</span><span class="valor destacado">● VIGENTE Y ACTIVA</span></div>
+        <div class="fila"><span class="etiqueta">Correo:</span><span class="valor">arestapias2024@gmail.com</span></div>
+      </div>
+      
+      <button class="btn-cerrar" id="btnCerrarCred">✕ CERRAR</button>
+    </div>
+  </div>
 
-      <div class="datos-credencial" id="datosCred">
-        <h3 class="seccion-titulo">📋 DATOS DE IDENTIFICACIÓN</h3>
-        <div class="bloque-datos">
-          <div class="fila-dato"><span class="etiqueta-dato">Nombre Completo:</span><span class="valor-dato">José Rudencio Tapias</span></div>
-          <div class="fila-dato"><span class="etiqueta-dato">Documento / C.I.:</span><span class="valor-dato">09XXXXXX-0</span></div>
-          <div class="fila-dato"><span class="etiqueta-dato">Nacionalidad:</span><span class="valor-dato">Ecuatoriana 🇪🇨</span></div>
-          <div class="fila-dato"><s
+<script>
+  // ==============================================
+  // DATOS DE ACCESO
+  // ==============================================
+  const USUARIO_VALIDO = "Josetapias";
+  const CLAVE_VALIDA = "Mamita123";
+  const CLAVE_DETALLES = "Agente22";
+  const CLAVE_ARCHIVO = "Agente22";
+  const CLAVE_CREDENCIAL = "Agente22";
+
+  // ==============================================
+  // CONTENIDO COMPLETO DE CADA BASE
+  // ==============================================
+  const contenidoBases = {
+    marina: `
+      <h4>⚓ FLOTA NAVAL NACIONAL — COMANDO PRINCIPAL</h4>
+      <p><strong>Ubicación:</strong> Base Naval Principal — Guayaquil, Ecuador 🇪🇨</p>
+      <p><strong>Estado:</strong> ● ACTIVO — OPERATIVO</p>
+      <h4>📋 UNIDADES EN SERVICIO:</h4>
+      <ul>
+        <li>🚢 Buque de Guardacostas GC-101 — Patrulla Costera</li>
+        <li>🚤 Lancha Rápida LR-205 — Respuesta Inmediata</li>
+        <li>⛴️ Transporte Naval TN-302 — Logística y Abastecimiento</li>
+        <li>🔬 Unidad de Investigación Submarina — Zona Insular</li>
+      </ul>
+      <h4>🎯 MISIÓN:</h4>
+      <p>Protección de aguas territoriales, control de pesca ilegal, seguridad portuaria y ayuda humanitaria en el litoral ecuatoriano y islas Galápagos.</p>
+      <h4>🔐 NIVEL DE ACCESO:</h4>
+      <p>Solamente personal autorizado — Código: AGENTE-22-EC-001</p>
+    `,
+    policia: `
+      <h4>🛡️ POLICÍA NACIONAL DEL ECUADOR — DIRECCIÓN DE INTELIGENCIA</h4>
+      <p><strong>Sede Central:</strong> Quito — Distrito Metropolitano</p>
+      <p><strong>Zona de Cobertura:</strong> Nacional</p>
+      <h4>📋 ÁREAS DE OPERACIÓN:</h4>
+      <ul>
+        <li>🔍 Inteligencia Preventiva y Análisis de Riesgos</li>
+        <li>🕵️ Investigación Criminal y Delincuencia Organizada</li>
+        <li>📡 Ciberseguridad y Delitos Informáticos</li>
+        <li>🤝 Cooperación Internacional INTERPOL</li>
+        <li>👮 Control de Fronteras y Migración</li>
+      </ul>
+      <h4>🎯 OBJETIVOS ACTUALES:</h4>
+      <p>Fortalecimiento de la seguridad ciudadana, modernización tecnológica, prevención de delitos digitales y protección de datos personales e institucionales.</p>
+      <h4>⚠️ CLASIFICACIÓN:</h4>
+      <p>INFORMACIÓN CONFIDENCIAL — USO EXCLUSIVO DE AUTORIDADES COMPETENTES</p>
+    `,
+    aerea: `
+      <h4>✈️ FUERZA AÉREA ECUATORIANA — COMANDO DE DEFENSA AEROESPACIAL</h4>
+      <p><strong>Base Principal:</strong> Aeropuerto Internacional Mariscal Sucre — Tababela</p>
+      <p><strong>Estado:</strong> ● ALTA DISPONIBILIDAD</p>
+      <h4>📋 FLOTA ACTIVA:</h4>
+      <ul>
+        <li>🛩️ Cazas de Combate — Escuadrón 21 "Cóndor"</li>
+        <li>🚁 Helicópteros de Rescate y Transporte Táctico</li>
+        <li>🛫 Aviones de Vigilancia y Patrulla Fronteriza</li>
+        <li>🛰️ Sistema de Radares y Control Aeroespacial</li>
+        <li>🔬 Proyectos de Modernización y Nuevas Tecnologías</li>
+      </ul>
+      <h4>🎯 MISIÓN:</h4>
+      <p>Defensa del espacio aéreo nacional, apoyo a fuerzas terrestres y navales, transporte humanitario, rescate aéreo y monitoreo de fronteras.</p>
+      <h4>📡 COMUNICACIONES:</h4>
+      <p>Red cifrada — Encriptación Nivel Máximo — Acceso restringido</p>
+    `,
+    mundial: `
+      <h4>🌍 BASE MUNDIAL — RED DE ALIANZAS ESTRATÉGICAS</h4>
+      <p><strong>Ubicación:</strong> Plataforma Digital Global — Conectividad Continua</p>
+      <p><strong>Estado:</strong> ● CONECTADO — 194 NACIONES</p>
+      <h4>📋 ALIANZAS Y ORGANISMOS:</h4>
+      <ul>
+        <li>🏛️ ONU — Organización de las Naciones Unidas</li>
+        <li>🌎 OEA — Organización de Estados Americanos</li>
+        <li>🤝 UNASUR — Integración Regional Suramericana</li>
+        <li>🔐 INTERPOL — Red Internacional de Policía</li>
+        <li>🛡️ OTAN — Cooperación en Seguridad Global (Asociado)</li>
+        <li>🌐 OMS — Organización Mundial de la Salud</li>
+      </ul>
+      <h4>🎯 PROPÓSITO:</h4>
+      <p>Coordinación internacional, respuesta conjunta ante emergencias, intercambio de inteligencia, tratados de paz, protección ambiental y desarrollo sostenible.</p>
+      <h4>📊 DATOS EN TIEMPO REAL:</h4>
+      <p>Monitoreo de eventos globales — Actualización cada 60 segundos</p>
+    `,
+    espacial: `
+      <h4>🛰️ COMANDO ESPACIAL — DIVISIÓN SATELITAL</h4>
+      <p><strong>Centro de Control:</strong> Estación Terrestre Principal — Centro del País</p>
+      <p><strong>Órbitas Activas:</strong> 3 Satélites Nacionales + Red Internacional</p>
+      <h4>📋 PROYECTOS:</h4>
+      <ul>
+        <li>📡 SAT-ECU I — Observación y Monitoreo Territorial</li>
+        <li>📡 SAT-ECU II — Comunicaciones y Datos</li>
+        <li>📡 SAT-ECU III — Meteorología y Cambio Climático</li>
+        <li>🔭 Colaboración con ESA y NASA — Exploración Espacial</li>
+        <li>🌍 Sistema de Cartografía Digital Nacional</li>
+      </ul>
+      <h4>🎯 FUNCIONES:</h4>
+      <p>Imágenes satelitales, pronóstico climático, detección de incendios, control de deforestación, apoyo en desastres naturales y conectividad digital remota.</p>
+      <h4>🔭 PRÓXIMA GENERACIÓN:</h4>
+      <p>Programa de satélites de alta resolución — Fase de desarrollo avanzado</p>
+    `
+  };
+
+  const contenidoArchivos = {
+    "234": `
+      <h4>📁 ARCHIVO #234 — PROYECTO: OBSERVACIÓN DE CUERPOS CELESTES</h4>
+      <p><strong>Fecha de registro:</strong> 15/03/2026</p>
+      <p><strong>Clasificación:</strong> Confidencial — Nivel 2</p>
+      <p>Estudio de trayectorias de asteroides cercanos a la órbita terrestre. Monitoreo continuo de 127 objetos de interés. Colaboración con el Centro de Estudios de Objetos Cercanos a la Tierra.</p>
+      <p><em>Este archivo puede ser actualizado en cualquier momento según nuevas observaciones.</em></p>
+    `,
+    "456": `
+      <h4>📁 ARCHIVO #456 — TECNOLOGÍA DE PROPULSIÓN AVANZADA</h4>
+      <p><strong>Área:</strong> Ingeniería de Sistemas Espaciales</p>
+      <p><strong>Estado:<
