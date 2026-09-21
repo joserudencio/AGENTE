@@ -10,6 +10,9 @@
     body {
       background: #050505;
       min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 20px;
       background-image: 
         linear-gradient(rgba(0, 255, 100, 0.03) 1px, transparent 1px),
@@ -24,18 +27,14 @@
 
     /* === LOGIN === */
     #pantallaLogin {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      width: 100%;
+      max-width: 480px;
     }
     .caja-login {
       background: rgba(0, 20, 10, 0.9);
       border: 3px solid #00ff66;
       border-radius: 15px;
       padding: 40px 30px;
-      width: 100%;
-      max-width: 450px;
       box-shadow: 0 0 30px rgba(0, 255, 100, 0.3);
     }
     .titulo-login {
@@ -51,16 +50,17 @@
       display: block;
       margin-bottom: 8px;
       font-weight: bold;
+      font-size: 18px;
     }
     input {
       width: 100%;
-      padding: 14px;
-      margin-bottom: 20px;
+      padding: 16px;
+      margin-bottom: 25px;
       background: rgba(0, 40, 20, 0.5);
       border: 2px solid #00aa44;
-      border-radius: 6px;
+      border-radius: 8px;
       color: #00ff66;
-      font-size: 16px;
+      font-size: 18px;
     }
     input:focus {
       outline: none;
@@ -69,12 +69,12 @@
     }
     #botonIngresar {
       width: 100%;
-      padding: 15px;
+      padding: 18px;
       background: linear-gradient(135deg, #008833, #00ff66);
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       color: #000;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
       cursor: pointer;
       transition: 0.2s;
@@ -89,13 +89,14 @@
       text-align: center;
       font-weight: bold;
       display: none;
+      font-size: 16px;
     }
 
     /* === PANEL PRINCIPAL === */
     #pantallaPrincipal {
       display: none;
+      width: 100%;
       max-width: 1000px;
-      margin: 0 auto;
       animation: aparecer 0.4s ease;
     }
     .barra-superior {
@@ -314,7 +315,7 @@
       <h1 class="titulo-login">◈ SISTEMA DE SEGURIDAD — AGENTE ◈</h1>
       
       <label>USUARIO:</label>
-      <input type="text" id="campoUsuario" placeholder="Escribe tu usuario...">
+      <input type="text" id="campoUsuario" placeholder="Escribe tu usuario..." value="Josetapias">
       
       <label>CONTRASEÑA:</label>
       <input type="password" id="campoClave" placeholder="Escribe tu contraseña...">
@@ -414,7 +415,7 @@
       <p class="mensaje-no" id="noCred">❌ CÓDIGO INCORRECTO</p>
       <div class="datos-cred" id="datosCred">
         <div class="fila"><span class="etiqueta">Nombre:</span><span class="valor">José Rudencio Tapias</span></div>
-        <div class="fila"><span class="etiqueta">Usuario:</span><span class="valor destacado">AGENTE</span></div>
+        <div class="fila"><span class="etiqueta">Usuario:</span><span class="valor destacado">Josetapias</span></div>
         <div class="fila"><span class="etiqueta">Código Agente:</span><span class="valor destacado">AGENTE-22-EC-001</span></div>
         <div class="fila"><span class="etiqueta">Nacionalidad:</span><span class="valor">Ecuatoriana 🇪🇨</span></div>
         <div class="fila"><span class="etiqueta">Nivel:</span><span class="valor destacado">MÁXIMA AUTORIZACIÓN ⭐⭐⭐⭐⭐</span></div>
@@ -426,8 +427,8 @@
   </div>
 
 <script>
-  // DATOS DE ACCESO — REPOSITORIO AGENTE
-  const USUARIO_VALIDO = "AGENTE";
+  // ✅ AHORA COINCIDE CON LO QUE TÚ ESCRIBES
+  const USUARIO_VALIDO = "Josetapias";
   const CLAVE_VALIDA = "Mamita123";
   const CLAVE_DETALLES = "Agente22";
   const CLAVE_CREDENCIAL = "Agente22";
@@ -537,4 +538,4 @@
   const btnSalir = document.getElementById("btnSalir");
   const btnCredencial = document.getElementById("btnCredencial");
   const ventanaCredencial = document.getElementById("ventanaCredencial");
-  const btnCerrarCred = document.getElementById("btn
+  co
