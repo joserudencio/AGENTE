@@ -3,547 +3,621 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SISTEMA DE SEGURIDAD — AGENTE</title>
+  <title>SISTEMA DE AGENTE — BASES DE DATOS</title>
   <style>
-    * {margin:0;padding:0;box-sizing:border-box;font-family:'Courier New',monospace}
-    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
     body {
-      background: #050505;
+      background: #000;
       min-height: 100vh;
       padding: 20px;
       background-image: 
-        linear-gradient(rgba(0,255,100,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,100,0.03) 1px, transparent 1px);
-      background-size: 30px 30px;
+        linear-gradient(rgba(0,255,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,0,0.03) 1px, transparent 1px);
+      background-size: 25px 25px;
     }
 
-    @keyframes aparecer {
-      from { opacity:0; transform:scale(0.95); }
-      to { opacity:1; transform:scale(1); }
-    }
-
-    /* === LOGIN === */
-    #pantallaLogin {
+    /* === PANTALLA DE LOGIN === */
+    #pantalla-login {
       display: flex;
       justify-content: center;
       align-items: center;
+      width: 100%;
       min-height: 100vh;
     }
-    .caja-login {
-      background: rgba(0,20,10,0.9);
-      border: 3px solid #00ff66;
-      border-radius: 15px;
+
+    .caja-terminal {
+      background: #050505;
+      border: 2px solid #0f0;
+      box-shadow: 0 0 15px #0f0, inset 0 0 15px rgba(0,255,0,0.1);
       padding: 40px 30px;
       width: 100%;
       max-width: 450px;
-      box-shadow: 0 0 30px rgba(0,255,100,0.3);
     }
-    .titulo-login {
-      color: #00ff66;
+
+    .titulo {
+      color: #0f0;
       text-align: center;
       font-size: 22px;
       font-weight: bold;
-      margin-bottom: 30px;
-      text-shadow: 0 0 10px rgba(0,255,100,0.4);
+      margin-bottom: 35px;
+      text-shadow: 0 0 8px #0f0;
+      letter-spacing: 2px;
     }
-    label {
-      color: #88ffaa;
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      font-size: 18px;
-    }
-    input {
-      width: 100%;
-      padding: 16px;
-      margin-bottom: 25px;
-      background: rgba(0,40,20,0.5);
-      border: 2px solid #00aa44;
-      border-radius: 8px;
-      color: #00ff66;
-      font-size: 18px;
-    }
-    input:focus {
-      outline: none;
-      border-color: #00ff66;
-      box-shadow: 0 0 12px rgba(0,255,100,0.4);
-    }
-    #botonIngresar {
-      width: 100%;
-      padding: 18px;
-      background: linear-gradient(135deg, #008833, #00ff66);
-      border: none;
-      border-radius: 8px;
-      color: #000;
-      font-size: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    #botonIngresar:active { transform: scale(0.98); }
-    #mensajeError {
-      color: #ff4444;
-      margin-top: 15px;
-      text-align: center;
-      font-weight: bold;
-      display: none;
+
+    .etiqueta {
+      color: #0f0;
       font-size: 16px;
+      margin-bottom: 8px;
+      display: block;
     }
 
-    /* === PANEL PRINCIPAL === */
-    #pantallaPrincipal {
-      display: none;
-      max-width: 1000px;
-      margin: 0 auto;
-      animation: aparecer 0.4s ease;
-    }
-    .barra-superior {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #004422;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .titulo-panel {
-      color: #00ff66;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .bienvenida { color: #88ffaa; margin-top: 5px; }
-    .resaltado { color: #ffdd00; font-weight: bold; }
-    .btn-credencial {
-      background: linear-gradient(135deg, #ffcc00, #ffdd44);
-      border: none;
-      border-radius: 20px;
-      padding: 10px 20px;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .btn-salir {
-      background: transparent;
-      border: 1px solid #ff4444;
-      color: #ff6666;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    /* === BOTONES BASES === */
-    .contenedor-botones {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 18px;
-      margin-bottom: 30px;
-    }
-    .boton-base {
-      background: rgba(0,30,15,0.6);
-      border: 2px solid #00aa44;
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .boton-base:active { transform: scale(0.97); }
-    .boton-nasa {
-      border-color: #0066cc;
-      background: rgba(0,20,60,0.6);
-    }
-    .icono { font-size: 30px; margin-bottom: 8px; }
-    .nombre-base { color: #00ff66; font-weight: bold; margin-bottom: 4px; }
-    .nombre-nasa { color: #00aaff; }
-    .desc { color: #66aa77; font-size: 11px; margin-top: 5px; }
-    .desc-nasa { color: #66aaff; }
-
-    /* === VISORES === */
-    .visor {
-      background: rgba(0,20,10,0.5);
-      border: 1px solid #004422;
-      border-radius: 10px;
-      padding: 25px;
-      margin-top: 25px;
-      display: none;
-      animation: aparecer 0.4s ease;
-    }
-    .visor.activo { display: block; }
-    .visor-nasa { border-color: #0066cc; background: rgba(0,15,40,0.5); }
-    .btn-regresar {
-      background: transparent;
-      border: 1px solid #ffaa00;
-      color: #ffcc00;
-      padding: 8px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-    .btn-detalles {
+    .entrada {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, #0044aa, #0088ff);
-      border: none;
-      border-radius: 8px;
+      margin-bottom: 25px;
+      background: #0a0a0a;
+      border: 1px solid #0f0;
+      color: #0f0;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .entrada:focus {
+      box-shadow: 0 0 10px #0f0;
+    }
+
+    .boton-verde {
+      width: 100%;
+      padding: 15px;
+      background: #0a0;
+      border: 2px solid #0f0;
+      color: #000;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .boton-verde:hover {
+      background: #0f0;
+      box-shadow: 0 0 15px #0f0;
+    }
+
+    .error {
+      color: #f00;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      display: none;
+      text-shadow: 0 0 5px #f00;
+    }
+
+    /* === PANTALLA PRINCIPAL === */
+    #pantalla-principal {
+      display: none;
+      width: 100%;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    .cabecera {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #0f0;
+    }
+
+    .cabecera h1 {
+      font-size: 24px;
+      text-shadow: 0 0 10px #0f0;
+      margin-bottom: 10px;
+    }
+
+    .cabecera p {
+      color: #8f8;
+    }
+
+    .boton-cerrar-sesion {
+      background: #900;
       color: #fff;
+      border: 2px solid #f00;
+      padding: 10px 20px;
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 10px;
+      margin-bottom: 20px;
+      float: right;
     }
-    .caja-clave {
-      margin-top: 20px;
-      padding: 25px;
-      background: rgba(30,30,60,0.8);
-      border: 2px solid #ffaa00;
-      border-radius: 10px;
-      display: none;
-    }
-    .caja-clave.visible { display: block; }
-    .caja-nasa { border-color: #00aaff; }
-    .mensaje-ok { color: #0f6; margin-top: 12px; display: none; font-weight: bold; }
-    .mensaje-no { color: #f44; margin-top: 12px; display: none; font-weight: bold; }
-    .contenido-secreto {
-      margin-top: 20px;
-      padding: 25px;
-      background: rgba(0,30,60,0.6);
-      border: 2px solid #00ff66;
-      border-radius: 10px;
-      display: none;
-      color: #afc;
-      line-height: 1.8;
-    }
-    .contenido-secreto.visible { display: block; animation: aparecer 0.5s ease; }
-    .contenido-secreto h4 { color: #ffd700; margin: 15px 0 8px; }
-    .contenido-secreto ul { margin-left: 20px; margin-bottom: 15px; }
-    .contenido-secreto li { margin-bottom: 5px; }
 
-    /* === CREDENCIAL === */
-    .ventana-credencial {
+    .boton-cerrar-sesion:hover {
+      box-shadow: 0 0 10px #f00;
+    }
+
+    .seccion {
+      margin-bottom: 35px;
+      clear: both;
+    }
+
+    .titulo-seccion {
+      background: #0a0;
+      border: 2px solid #0f0;
+      color: #0f0;
+      padding: 15px 25px;
+      font-size: 19px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .titulo-seccion:hover {
+      box-shadow: 0 0 12px #0f0;
+    }
+
+    .contenido-seccion {
+      display: none;
+    }
+
+    .contenido-seccion.visible {
+      display: block;
+    }
+
+    .contenedor-botones {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .boton-base {
+      padding: 18px 15px;
+      background: #0a0a0a;
+      border: 2px solid #0f0;
+      color: #0f0;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .boton-base:hover {
+      background: #0f0;
+      color: #000;
+      box-shadow: 0 0 15px #0f0;
+    }
+
+    .boton-interpol { border-color: #00aaff; color: #00aaff; }
+    .boton-interpol:hover { background: #00aaff; color: #000; box-shadow: 0 0 15px #00aaff; }
+    .boton-policia { border-color: #ffcc00; color: #ffcc00; }
+    .boton-policia:hover { background: #ffcc00; color: #000; box-shadow: 0 0 15px #ffcc00; }
+    .boton-fbi { border-color: #0066cc; color: #0066cc; }
+    .boton-fbi:hover { background: #0066cc; color: #fff; box-shadow: 0 0 15px #0066cc; }
+    .boton-fuerza { border-color: #cc0000; color: #cc0000; }
+    .boton-fuerza:hover { background: #cc0000; color: #fff; box-shadow: 0 0 15px #cc0000; }
+    .boton-maritimo { border-color: #0099cc; color: #0099cc; }
+    .boton-maritimo:hover { background: #0099cc; color: #000; box-shadow: 0 0 15px #0099cc; }
+    .boton-nasa { border-color: #ff9900; color: #ff9900; }
+    .boton-nasa:hover { background: #ff9900; color: #000; box-shadow: 0 0 15px #ff9900; }
+
+    /* === ARCHIVOS CLASIFICADOS === */
+    .cuadricula-casos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .tarjeta-caso {
+      background: #080808;
+      border: 2px solid #060;
+      padding: 22px 18px;
+      border-radius: 8px;
+      transition: 0.2s;
+    }
+
+    .tarjeta-caso:hover {
+      border-color: #0f0;
+      box-shadow: 0 0 15px #0f0;
+    }
+
+    .nombre-caso {
+      color: #0f0;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #060;
+    }
+
+    .btn-subir-imagen {
+      width: 100%;
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 11px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-subir-imagen:hover {
+      background: #218838;
+      box-shadow: 0 0 10px #28a745;
+    }
+
+    .entrada-oculta {
+      display: none;
+    }
+
+    .vista-previa {
+      margin-top: 12px;
+      display: none;
+      border: 1px solid #0f0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .vista-previa.mostrada {
+      display: block;
+    }
+
+    .vista-previa img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .boton-credencial-pie {
+      padding: 14px 30px;
+      background: #050;
+      border: 2px solid #0f0;
+      color: #0f0;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      transition: 0.2s;
+    }
+
+    .boton-credencial-pie:hover {
+      background: #0f0;
+      color: #000;
+      box-shadow: 0 0 15px #0f0;
+    }
+
+    /* === VENTANAS MODALES === */
+    .ventana {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.92);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 999;
-      padding: 15px;
+      padding: 20px;
       overflow-y: auto;
     }
-    .ventana-credencial.activa { display: flex; }
-    .caja-credencial {
-      background: linear-gradient(180deg, #1a1a00, #2b2b00, #1a1a00);
-      border: 4px solid #ffdd00;
-      border-radius: 20px;
-      padding: 35px;
-      max-width: 520px;
-      width: 100%;
-      box-shadow: 0 0 50px rgba(255,221,0,0.35);
+
+    .ventana.activa {
+      display: flex;
     }
-    .titulo-cred {
-      color: #fff;
+
+    .caja-ventana {
+      background: #050505;
+      border: 2px solid #0f0;
+      box-shadow: 0 0 25px #0f0;
+      padding: 35px;
+      max-width: 550px;
+      width: 100%;
+    }
+
+    .titulo-ventana {
+      color: #0f0;
       text-align: center;
+      margin-bottom: 25px;
       font-size: 20px;
-      font-weight: bold;
+      text-shadow: 0 0 8px #0f0;
+    }
+
+    .contenido {
+      color: #0f0;
+      line-height: 1.8;
+      font-size: 15px;
       margin-bottom: 25px;
     }
-    .datos-cred { display: none; margin-top: 20px; }
-    .datos-cred.visibles { display: block; animation: aparecer 0.5s ease; }
-    .fila {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px dashed #444;
-      flex-wrap: wrap;
-      gap: 5px;
+
+    .contenido strong {
+      color: #fff;
     }
-    .etiqueta { color: #ffdd00; font-weight: bold; }
-    .valor { color: #ffffcc; }
-    .valor.destacado { color: #0f6; font-weight: bold; }
-    .btn-cerrar {
+
+    .btn-cerrar-ventana {
       width: 100%;
-      margin-top: 20px;
       padding: 12px;
-      background: transparent;
-      border: 1px solid #f44;
-      color: #f66;
-      border-radius: 6px;
+      background: #900;
+      border: 2px solid #f00;
+      color: #fff;
+      font-size: 16px;
       cursor: pointer;
       font-weight: bold;
+      transition: 0.2s;
     }
+
+    .btn-cerrar-ventana:hover {
+      box-shadow: 0 0 10px #f00;
+    }
+
+    .caja-interpol { border-color: #00aaff; box-shadow: 0 0 25px #00aaff; }
+    .titulo-interpol { color: #00aaff; text-shadow: 0 0 8px #00aaff; }
+    .caja-policia { border-color: #ffcc00; box-shadow: 0 0 25px #ffcc00; }
+    .titulo-policia { color: #ffcc00; text-shadow: 0 0 8px #ffcc00; }
+    .caja-fbi { border-color: #0066cc; box-shadow: 0 0 25px #0066cc; }
+    .titulo-fbi { color: #0066cc; text-shadow: 0 0 8px #0066cc; }
+    .caja-fuerza { border-color: #cc0000; box-shadow: 0 0 25px #cc0000; }
+    .titulo-fuerza { color: #cc0000; text-shadow: 0 0 8px #cc0000; }
+    .caja-maritimo { border-color: #0099cc; box-shadow: 0 0 25px #0099cc; }
+    .titulo-maritimo { color: #0099cc; text-shadow: 0 0 8px #0099cc; }
+    .caja-nasa { border-color: #ff9900; box-shadow: 0 0 25px #ff9900; }
+    .titulo-nasa { color: #ff9900; text-shadow: 0 0 8px #ff9900; }
+    .caja-credencial { border-color: #0f0; box-shadow: 0 0 25px #0f0; }
+    .titulo-credencial { color: #0f0; text-shadow: 0 0 8px #0f0; }
   </style>
 </head>
 <body>
 
-  <!-- === LOGIN === -->
-  <div id="pantallaLogin">
-    <div class="caja-login">
-      <h1 class="titulo-login">◈ SISTEMA DE SEGURIDAD — AGENTE ◈</h1>
-      
-      <label>USUARIO:</label>
-      <input type="text" id="campoUsuario" value="Josetapias">
-      
-      <label>CONTRASEÑA:</label>
-      <input type="password" id="campoClave" placeholder="Escribe tu contraseña...">
-      
-      <button id="botonIngresar">▶ INGRESAR AL SISTEMA</button>
-      <p id="mensajeError">❌ USUARIO O CONTRASEÑA INCORRECTOS</p>
+<!-- PANTALLA DE INICIO DE SESIÓN -->
+<div id="pantalla-login">
+  <div class="caja-terminal">
+    <h1 class="titulo">>>> INICIO_DE_SESIÓN <<<</h1>
+    
+    <label class="etiqueta">>> USUARIO:</label>
+    <input type="text" id="campo-usuario" class="entrada" placeholder="Escribe tu usuario...">
+    
+    <label class="etiqueta">>> CONTRASEÑA:</label>
+    <input type="password" id="campo-clave" class="entrada" placeholder="Escribe tu contraseña...">
+    
+    <button id="boton-ingresar" class="boton-verde">>>> INGRESAR</button>
+    <p id="mensaje-error" class="error">>> ACCESO_DENEGADO: Usuario o contraseña incorrectos</p>
+  </div>
+</div>
+
+<!-- PANTALLA PRINCIPAL -->
+<div id="pantalla-principal">
+  <button id="boton-salir" class="boton-cerrar-sesion">✕ CERRAR SESIÓN</button>
+  
+  <div class="cabecera">
+    <h1>>>> BASE_DE_DATOS_PRINCIPAL <<<</h1>
+    <p>Agente: <strong>Josetapias</strong> | Nivel: MÁXIMA AUTORIZACIÓN</p>
+  </div>
+
+  <!-- BASES DE DATOS -->
+  <div class="seccion">
+    <div class="titulo-seccion" id="encabezado-bases">
+      <span>📂 BASES DE DATOS OFICIALES</span>
+      <span id="icono-bases">▼</span>
+    </div>
+    <div class="contenido-seccion" id="contenido-bases">
+      <div class="contenedor-botones">
+        <button class="boton-base boton-interpol" data-base="interpol">🌍 INTERPOL — Red Internacional</button>
+        <button class="boton-base boton-policia" data-base="policia">🛡️ POLICÍA NACIONAL — Ecuador</button>
+        <button class="boton-base boton-fbi" data-base="fbi">🏛️ FBI — Oficina Federal EE.UU.</button>
+        <button class="boton-base boton-fuerza" data-base="fuerza">⚔️ FUERZA ARMADA — Defensa Nacional</button>
+        <button class="boton-base boton-maritimo" data-base="maritimo">⚓ AGENTE MARÍTIMO — Flota Naval</button>
+        <button class="boton-base boton-nasa" data-base="nasa">🚀 NASA — Archivos Clasificados</button>
+      </div>
     </div>
   </div>
 
-  <!-- === PANEL PRINCIPAL === -->
-  <div id="pantallaPrincipal">
-    <div class="barra-superior">
-      <div>
-        <div class="titulo-panel">◈ SELECCIÓN DE BASE DE DATOS</div>
-        <div class="bienvenida">Bienvenido, <span class="resaltado" id="nombreUsuario">---</span></div>
-      </div>
-      <button class="btn-credencial" id="btnCredencial">📋 CREDENCIAL OFICIAL</button>
-      <button class="btn-salir" id="btnSalir">◀ SALIR</button>
+  <!-- ARCHIVOS CLASIFICADOS -->
+  <div class="seccion">
+    <div class="titulo-seccion" id="encabezado-casos">
+      <span>🔒 ARCHIVOS_CLASIFICADOS</span>
+      <span id="icono-casos">▼</span>
     </div>
-
-    <div class="contenedor-botones">
-      <div class="boton-base" id="btnMarina">
-        <div class="icono">⚓</div>
-        <div class="nombre-base">BASE MARINA</div>
-        <div class="desc">Flota Naval — Operaciones Marítimas</div>
-      </div>
-      <div class="boton-base" id="btnPolicia">
-        <div class="icono">🛡️</div>
-        <div class="nombre-base">POLICÍA NACIONAL</div>
-        <div class="desc">Seguridad — Inteligencia</div>
-      </div>
-      <div class="boton-base" id="btnAerea">
-        <div class="icono">✈️</div>
-        <div class="nombre-base">FUERZA AÉREA</div>
-        <div class="desc">Defensa — Flota de Combate</div>
-      </div>
-      <div class="boton-base" id="btnMundial">
-        <div class="icono">🌍</div>
-        <div class="nombre-base">BASE MUNDIAL</div>
-        <div class="desc">Red Internacional — Alianzas</div>
-      </div>
-      <div class="boton-base" id="btnEspacial">
-        <div class="icono">🛰️</div>
-        <div class="nombre-base">COMANDO ESPACIAL</div>
-        <div class="desc">Satelital — Vigilancia Orbital</div>
-      </div>
-      <div class="boton-base boton-nasa" id="btnNasa">
-        <div class="icono">🚀</div>
-        <div class="nombre-base nombre-nasa">BASE NASA</div>
-        <div class="desc desc-nasa">Proyectos Espaciales — Confidencial</div>
-      </div>
-    </div>
-
-    <div class="visor" id="visorBase">
-      <button class="btn-regresar" id="btnRegresar">◀ REGRESAR</button>
-      <h3 style="color:#0f6; margin-bottom:20px" id="tituloBase">---</h3>
-      <button class="btn-detalles" id="btnDetalles">🔒 MÁS DETALLES — NIVEL CONFIDENCIAL</button>
-      <div class="caja-clave" id="cajaClaveBase">
-        <label>Contraseña de autorización:</label>
-        <input type="password" id="claveBase" placeholder="Escribe la clave...">
-        <button class="btn-detalles" id="btnVerBase">✓ VERIFICAR</button>
-        <p class="mensaje-ok" id="okBase">✅ ACCESO AUTORIZADO</p>
-        <p class="mensaje-no" id="noBase">❌ CLAVE INCORRECTA</p>
-        <div class="contenido-secreto" id="contenidoBase"></div>
-      </div>
-    </div>
-
-    <div class="visor visor-nasa" id="visorNasa">
-      <button class="btn-regresar" id="btnRegresarNasa">◀ REGRESAR</button>
-      <h3 style="color:#0af; text-align:center; margin-bottom:20px;">🚀 BASE NASA — ARCHIVOS CONFIDENCIALES</h3>
-      <button class="btn-detalles" id="arch234">📁 ARCHIVO #234</button>
-      <button class="btn-detalles" id="arch456">📁 ARCHIVO #456</button>
-      <button class="btn-detalles" id="arch384">📁 ARCHIVO #384</button>
-      <button class="btn-detalles" id="arch278">📁 ARCHIVO #278</button>
-      <div class="caja-clave caja-nasa" id="cajaClaveArch">
-        <h4 style="color:#0af; margin-bottom:15px;">🔐 ACCESO RESTRINGIDO — ARCHIVO #<span id="numArch">---</span></h4>
-        <label>Contraseña de autorización:</label>
-        <input type="password" id="claveArchivo" placeholder="Escribe la clave...">
-        <button class="btn-detalles" id="btnVerArch">✓ VERIFICAR</button>
-        <p class="mensaje-ok" id="okArch">✅ ACCESO CONCEDIDO</p>
-        <p class="mensaje-no" id="noArch">❌ ACCESO DENEGADO</p>
-        <div class="contenido-secreto" id="contenidoArch">
-          <h3 style="color:#0ff; text-align:center; margin-bottom:20px;">📄 ARCHIVO DESBLOQUEADO</h3>
-          <div id="textoArchivo"></div>
+    <div class="contenido-seccion visible" id="contenido-casos">
+      <div class="cuadricula-casos">
+        
+        <div class="tarjeta-caso">
+          <div class="nombre-caso">📁 CASO 12345</div>
+          <input type="file" accept="image/*" id="archivo-caso-1" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-1')">
+          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-1').click()">📷 Subir Imagen</button>
+          <div class="vista-previa" id="vista-1"><img alt="Vista previa"></div>
         </div>
+
+        <div class="tarjeta-caso">
+          <div class="nombre-caso">📁 CASO 34556</div>
+          <input type="file" accept="image/*" id="archivo-caso-2" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-2')">
+          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-2').click()">📷 Subir Imagen</button>
+          <div class="vista-previa" id="vista-2"><img alt="Vista previa"></div>
+        </div>
+
+        <div class="tarjeta-caso">
+          <div class="nombre-caso">📁 CASO 35673</div>
+          <input type="file" accept="image/*" id="archivo-caso-3" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-3')">
+          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-3').click()">📷 Subir Imagen</button>
+          <div class="vista-previa" id="vista-3"><img alt="Vista previa"></div>
+        </div>
+
+        <div class="tarjeta-caso">
+          <div class="nombre-caso">📁 CASO 35699</div>
+          <input type="file" accept="image/*" id="archivo-caso-4" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-4')">
+          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-4').click()">📷 Subir Imagen</button>
+          <div class="vista-previa" id="vista-4"><img alt="Vista previa"></div>
+        </div>
+
+        <div class="tarjeta-caso">
+          <div class="nombre-caso">📁 CASO 34555</div>
+          <input type="file" accept="image/*" id="archivo-caso-5" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-5')">
+          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-5').click()">📷 Subir Imagen</button>
+          <div class="vista-previa" id="vista-5"><img alt="Vista previa"></div>
+        </div>
+
+        <div class="tarjeta-caso">
+          <div class="nombre-caso">📁 CASO 34955</div>
+          <input type="file" accept="image/*" id="archivo-caso-6" class="entrada-oculta" onchange="mostrarImagen(this, 'vista-6')">
+          <button class="btn-subir-imagen" onclick="document.getElementById('archivo-caso-6').click()">📷 Subir Imagen</button>
+          <div class="vista-previa" id="vista-6"><img alt="Vista previa"></div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <div class="ventana-credencial" id="ventanaCredencial">
-    <div class="caja-credencial">
-      <h2 class="titulo-cred">★ CREDENCIAL DE AGENTE ★</h2>
-      <label>Código de autorización:</label>
-      <input type="password" id="claveCredencial" placeholder="Escribe tu código...">
-      <button class="btn-detalles" id="btnVerCred">✓ CONFIRMAR IDENTIDAD</button>
-      <p class="mensaje-ok" id="okCred">✅ IDENTIDAD VERIFICADA</p>
-      <p class="mensaje-no" id="noCred">❌ CÓDIGO INCORRECTO</p>
-      <div class="datos-cred" id="datosCred">
-        <div class="fila"><span class="etiqueta">Nombre:</span><span class="valor">José Rudencio Tapias</span></div>
-        <div class="fila"><span class="etiqueta">Usuario:</span><span class="valor destacado">Josetapias</span></div>
-        <div class="fila"><span class="etiqueta">Código Agente:</span><span class="valor destacado">AGENTE-22-EC-001</span></div>
-        <div class="fila"><span class="etiqueta">Nacionalidad:</span><span class="valor">Ecuatoriana 🇪🇨</span></div>
-        <div class="fila"><span class="etiqueta">Nivel:</span><span class="valor destacado">MÁXIMA AUTORIZACIÓN ⭐⭐⭐⭐⭐</span></div>
-        <div class="fila"><span class="etiqueta">Estado:</span><span class="valor destacado">● VIGENTE Y ACTIVA</span></div>
-        <div class="fila"><span class="etiqueta">Correo:</span><span class="valor">arestapias2024@gmail.com</span></div>
-      </div>
-      <button class="btn-cerrar" id="btnCerrarCred">✕ CERRAR</button>
+  <button id="boton-credencial" class="boton-credencial-pie">📋 VER_CREDENCIAL_DE_AGENTE</button>
+</div>
+
+<!-- VENTANAS -->
+<div id="ventana-interpol" class="ventana">
+  <div class="caja-ventana caja-interpol">
+    <h2 class="titulo-ventana titulo-interpol">>>> BASE_INTERPOL <<<</h2>
+    <div class="contenido">
+      <p><strong>✅ NOMBRE:</strong> Organización Internacional de Policía Criminal</p>
+      <p><strong>📍 SEDE:</strong> Lyon, Francia</p>
+      <p><strong>🌐 PAÍSES CONECTADOS:</strong> 196 naciones</p>
+      <p><strong>🔍 FUNCIÓN:</strong> Cooperación policial internacional, búsqueda de fugitivos</p>
+      <p><strong>📂 REGISTROS:</strong> 12.7 millones de archivos activos</p>
+      <p><strong>📡 ESTADO:</strong> ● EN LÍNEA Y MONITOREANDO</p>
     </div>
+    <button class="btn-cerrar-ventana"><< CERRAR >></button>
   </div>
+</div>
+
+<div id="ventana-policia" class="ventana">
+  <div class="caja-ventana caja-policia">
+    <h2 class="titulo-ventana titulo-policia">>>> BASE_POLICÍA_NACIONAL <<<</h2>
+    <div class="contenido">
+      <p><strong>✅ NOMBRE:</strong> Policía Nacional del Ecuador</p>
+      <p><strong>📍 SEDE:</strong> Quito — Distrito Metropolitano</p>
+      <p><strong>🗺️ COBERTURA:</strong> 24 provincias — Nacional</p>
+      <p><strong>📂 REGISTROS:</strong> 8.9 millones de expedientes</p>
+      <p><strong>📊 ESTADO:</strong> ● OPERATIVO AL 100%</p>
+    </div>
+    <button class="btn-cerrar-ventana"><< CERRAR >></button>
+  </div>
+</div>
+
+<div id="ventana-fbi" class="ventana">
+  <div class="caja-ventana caja-fbi">
+    <h2 class="titulo-ventana titulo-fbi">>>> BASE_FBI <<<</h2>
+    <div class="contenido">
+      <p><strong>✅ NOMBRE:</strong> Federal Bureau of Investigation</p>
+      <p><strong>📍 SEDE:</strong> Washington D.C.</p>
+      <p><strong>🔍 ÁREAS:</strong> Contraespionaje, Terrorismo, Delitos Cibernéticos</p>
+      <p><strong>⚠️ CLASIFICACIÓN:</strong> Confidencial — Acceso autorizado</p>
+    </div>
+    <button class="btn-cerrar-ventana"><< CERRAR >></button>
+  </div>
+</div>
+
+<div id="ventana-fuerza" class="ventana">
+  <div class="caja-ventana caja-fuerza">
+    <h2 class="titulo-ventana titulo-fuerza">>>> BASE_FUERZA_ARMADA <<<</h2>
+    <div class="contenido">
+      <p><strong>✅ INSTITUCIÓN:</strong> Fuerzas Armadas del Ecuador</p>
+      <p><strong>⚔️ RAMAS:</strong> Ejército, Armada, Fuerza Aérea</p>
+      <p><strong>🛡️ MISIÓN:</strong> Defensa de la soberanía e integridad territorial</p>
+      <p><strong>🔒 NIVEL_SEGURIDAD:</strong> Máxima — Cifrado militar AES-256</p>
+    </div>
+    <button class="btn-cerrar-ventana"><< CERRAR >></button>
+  </div>
+</div>
+
+<div id="ventana-maritimo" class="ventana">
+  <div class="caja-ventana caja-maritimo">
+    <h2 class="titulo-ventana titulo-maritimo">>>> BASE_AGENTE_MARÍTIMO <<<</h2>
+    <div class="contenido">
+      <p><strong>✅ NOMBRE:</strong> DIRNEA — Dirección Nacional de los Espacios Acuáticos</p>
+      <p><strong>📍 SEDE:</strong> Guayaquil — Base Naval Sur</p>
+      <p><strong>🌊 VIGILANCIA:</strong> Mar Territorial, Galápagos, Zona Económica Exclusiva</p>
+      <p><strong>📊 ESTADO:</strong> ● VIGILANCIA_CONTINUA_24/7</p>
+    </div>
+    <button class="btn-cerrar-ventana"><< CERRAR >></button>
+  </div>
+</div>
+
+<div id="ventana-nasa" class="ventana">
+  <div class="caja-ventana caja-nasa">
+    <h2 class="titulo-ventana titulo-nasa">>>> BASE_NASA — ARCHIVOS_CLASIFICADOS <<<</h2>
+    <div class="contenido">
+      <p><strong>✅ AGENCIA:</strong> NASA — National Aeronautics and Space Administration</p>
+      <p><strong>🚀 PROGRAMAS:</strong> Artemis, Marte, Estación Espacial Internacional</p>
+      <p><strong>🌍 COOPERACIÓN_ECUADOR:</strong> Observación terrestre y monitoreo Amazónico</p>
+      <p><strong>⚠️ CLASIFICACIÓN:</strong> ⭐ Nivel 2 — Datos desclasificados</p>
+    </div>
+    <button class="btn-cerrar-ventana"><< CERRAR >></button>
+  </div>
+</div>
+
+<div id="ventana-credencial" class="ventana">
+  <div class="caja-ventana caja-credencial">
+    <h2 class="titulo-ventana titulo-credencial">>>> CREDENCIAL_OFICIAL <<<</h2>
+    <div class="contenido">
+      <p><strong>NOMBRE_COMPLETO:</strong> José Rudencio Tapias</p>
+      <p><strong>USUARIO:</strong> Josetapias</p>
+      <p><strong>CÓDIGO_DE_AGENTE:</strong> AGENTE-22-EC-001</p>
+      <p><strong>NACIONALIDAD:</strong> Ecuatoriana 🇪🇨</p>
+      <p><strong>NIVEL_DE_AUTORIZACIÓN:</strong> ⭐⭐⭐⭐⭐ MÁXIMA</p>
+      <p><strong>ESTADO:</strong> ● VIGENTE_Y_ACTIVA</p>
+      <p><strong>CORREO:</strong> arestapias2024@gmail.com</p>
+      <p><strong>EMISIÓN:</strong> 2026-09-21</p>
+    </div>
+    <button class="btn-cerrar-ventana"><< CERRAR >></button>
+  </div>
+</div>
 
 <script>
-  // === DATOS DE ACCESO ===
-  const USUARIO_VALIDO = "Josetapias";
-  const CLAVE_VALIDA = "Mamita123";
-  const CLAVE_DETALLES = "Agente22";
-  const CLAVE_CREDENCIAL = "Agente22";
+  // ✅ TUS DATOS DE ACCESO
+  const USUARIO_CORRECTO = "Josetapias";
+  const CONTRASENA_CORRECTA = "1234";
 
-  // === CONTENIDO DE BASES ===
-  const contenidoBases = {
-    marina: `<h4>⚓ FLOTA NAVAL NACIONAL</h4><p>Base Naval Principal — Guayaquil, Ecuador 🇪🇨</p><p>Estado: ● ACTIVO</p><ul><li>🚢 Buque Guardacostas GC-101</li><li>🚤 Lancha Rápida LR-205</li><li>⛴️ Transporte TN-302</li><li>🔬 Investigación Submarina</li></ul>`,
-    policia: `<h4>🛡️ POLICÍA NACIONAL</h4><p>Sede: Quito — Distrito Metropolitano</p><p>Cobertura: Nacional</p><ul><li>🔍 Inteligencia Preventiva</li><li>🕵️ Investigación Criminal</li><li>📡 Ciberseguridad</li><li>🤝 Cooperación INTERPOL</li></ul>`,
-    aerea: `<h4>✈️ FUERZA AÉREA</h4><p>Base: Aeropuerto Intl. Mariscal Sucre</p><p>Estado: ● ALTA DISPONIBILIDAD</p><ul><li>🛩️ Escuadrón 21 "Cóndor"</li><li>🚁 Rescate y Transporte Táctico</li><li>🛫 Vigilancia Fronteriza</li><li>🛰️ Sistema de Radares</li></ul>`,
-    mundial: `<h4>🌍 BASE MUNDIAL — ALIANZAS</h4><p>Conectividad: 194 NACIONES</p><ul><li>🏛️ ONU</li><li>🌎 OEA</li><li>🔐 INTERPOL</li><li>🛡️ OTAN (Asociado)</li><li>🌐 OMS</li></ul>`,
-    espacial: `<h4>🛰️ COMANDO ESPACIAL</h4><p>Satélites activos: 3 + Red Internacional</p><ul><li>📡 SAT-ECU I — Observación</li><li>📡 SAT-ECU II — Comunicaciones</li><li>📡 SAT-ECU III — Clima</li><li>🔭 Colaboración NASA/ESA</li></ul>`
-  };
+  // ELEMENTOS
+  const pantallaLogin = document.getElementById("pantalla-login");
+  const pantallaPrincipal = document.getElementById("pantalla-principal");
+  const campoUsuario = document.getElementById("campo-usuario");
+  const campoClave = document.getElementById("campo-clave");
+  const botonIngresar = document.getElementById("boton-ingresar");
+  const mensajeError = document.getElementById("mensaje-error");
+  const botonSalir = document.getElementById("boton-salir");
+  const botonCredencial = document.getElementById("boton-credencial");
 
-  const contenidoArchivos = {
-    "234": `<h4>📁 ARCHIVO #234</h4><p>Observación de asteroides cercanos a la Tierra.</p>`,
-    "456": `<h4>📁 ARCHIVO #456</h4><p>Tecnología de propulsión espacial.</p>`,
-    "384": `<h4>📁 ARCHIVO #384</h4><p>Datos de cambio climático 2000-2026.</p>`,
-    "278": `<h4>📁 ARCHIVO #278</h4><p>Plan de base lunar permanente 2028-2035.</p>`
-  };
+  // ✅ FUNCIÓN DE INICIO DE SESIÓN — CORREGIDA
+  function verificarAcceso() {
+    const usuarioIngresado = campoUsuario.value.trim();
+    const claveIngresada = campoClave.value.trim();
 
-  const titulosBases = {
-    marina: "⚓ BASE DE DATOS — FLOTA NAVAL",
-    policia: "🛡️ BASE DE DATOS — POLICÍA NACIONAL",
-    aerea: "✈️ BASE DE DATOS — FUERZA AÉREA",
-    mundial: "🌍 BASE DE DATOS — RED MUNDIAL",
-    espacial: "🛰️ BASE DE DATOS — COMANDO ESPACIAL"
-  };
-
-  // === ELEMENTOS ===
-  const pantallaLogin = document.getElementById("pantallaLogin");
-  const pantallaPrincipal = document.getElementById("pantallaPrincipal");
-  const campoUsuario = document.getElementById("campoUsuario");
-  const campoClave = document.getElementById("campoClave");
-  const botonIngresar = document.getElementById("botonIngresar");
-  const mensajeError = document.getElementById("mensajeError");
-  const nombreUsuario = document.getElementById("nombreUsuario");
-  const btnSalir = document.getElementById("btnSalir");
-  const btnCredencial = document.getElementById("btnCredencial");
-  const ventanaCredencial = document.getElementById("ventanaCredencial");
-  const btnCerrarCred = document.getElementById("btnCerrarCred");
-  const btnVerCred = document.getElementById("btnVerCred");
-  const claveCredencial = document.getElementById("claveCredencial");
-  const okCred = document.getElementById("okCred");
-  const noCred = document.getElementById("noCred");
-  const datosCred = document.getElementById("datosCred");
-  const visorBase = document.getElementById("visorBase");
-  const visorNasa = document.getElementById("visorNasa");
-  const tituloBase = document.getElementById("tituloBase");
-  const btnRegresar = document.getElementById("btnRegresar");
-  const btnRegresarNasa = document.getElementById("btnRegresarNasa");
-  const cajaClaveBase = document.getElementById("cajaClaveBase");
-  const claveBase = document.getElementById("claveBase");
-  const okBase = document.getElementById("okBase");
-  const noBase = document.getElementById("noBase");
-  const contenidoBase = document.getElementById("contenidoBase");
-  const cajaClaveArch = document.getElementById("cajaClaveArch");
-  const numArch = document.getElementById("numArch");
-  const claveArchivo = document.getElementById("claveArchivo");
-  const btnVerArch = document.getElementById("btnVerArch");
-  const okArch = document.getElementById("okArch");
-  const noArch = document.getElementById("noArch");
-  const textoArchivo = document.getElementById("textoArchivo");
-
-  let baseActiva = "";
-
-  // === FUNCIÓN DE INGRESO — ARREGLADA ===
-  function entrar() {
-    const u = campoUsuario.value.trim();
-    const c = campoClave.value.trim();
-    
-    if (u === USUARIO_VALIDO && c === CLAVE_VALIDA) {
+    if (usuarioIngresado === USUARIO_CORRECTO && claveIngresada === CONTRASENA_CORRECTA) {
+      // ✅ ACCESO CORRECTO
       pantallaLogin.style.display = "none";
       pantallaPrincipal.style.display = "block";
-      nombreUsuario.textContent = u;
       mensajeError.style.display = "none";
     } else {
+      // ❌ DATOS INCORRECTOS
       mensajeError.style.display = "block";
     }
   }
 
-  function salir() {
-    pantallaPrincipal.style.display = "none";
-    pantallaLogin.style.display = "flex";
-    campoUsuario.value = "Josetapias";
-    campoClave.value = "";
-    mensajeError.style.display = "none";
-    cerrarVisores();
-    cerrarCredencial();
-  }
-
-  function cerrarVisores() {
-    visorBase.classList.remove("activo");
-    visorNasa.classList.remove("activo");
-    reiniciarBase();
-    baseActiva = "";
-  }
-
-  function mostrarBase(tipo) {
-    baseActiva = tipo;
-    tituloBase.textContent = titulosBases[tipo];
-    visorBase.classList.add("activo");
-    visorNasa.classList.remove("activo");
-    reiniciarBase();
-  }
-
-  function mostrarNasa() {
-    visorBase.classList.remove("activo");
-    visorNasa.classList.add("activo");
-  }
-
-  function reiniciarBase() {
-    cajaClaveBase.classList.remove("visible");
-    contenidoBase.classList.remove("visible");
-    okBase.style.display = "none";
-    noBase.style.display = "none";
-    claveBase.value = "";
-  }
-
-  function verificarBase() {
-    cajaClaveBase.classList.add("visible");
-    if (claveBase.value.trim() === CLAVE_DETALLES) {
-      okBase.style.display = "block";
-      noBase.style.display = "none";
-      contenidoBase.innerHTML = contenidoBases[baseActiva];
-      contenidoBase.classList.add("visible");
-    } else {
-      noBase.style.display = "block";
-      okBase.style.display = "none";
+  // MOSTRAR IMAGEN EN CASO
+  function mostrarImagen(input, idVista) {
+    if (input.files && input.files[0]) {
+      const lector = new FileReader();
+      lector.onload = function(e) {
+        const vista = document.getElementById(idVista);
+        vista.querySelector("img").src = e.target.result;
+        vista.classList.add("mostrada");
+      };
+      lector.readAsDataURL(input.files[0]);
     }
   }
 
-  function abrirArchivo(num) {
-    numArch.textContent = num;
-    cajaClaveArch.classList.add("visible");
-    okArch.style.display = "none";
-    noArch.style.display = "none";
-    textoArchivo.innerHTML = "";
-    claveArchivo.value = "";
-  }
-
-  function verificarArchivo() {
-    if (claveArchivo.value.trim() === CLAVE_DETALLES) {
-      okArch.style.display = "block";
-      noArch.style.display = "none";
-      textoArchivo.innerHTML = contenidoArchivos[numArch.textContent] || "<p>Sin contenido</p>";
-    } else {
-      noArch.style.display = "block";
-      okArch.style.di
+  // ABRIR/CERRAR SECCIONE
