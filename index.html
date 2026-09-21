@@ -577,47 +577,51 @@
 </div>
 
 <script>
-  // ✅ TUS DATOS DE ACCESO
-  const USUARIO_CORRECTO = "Josetapias";
-  const CONTRASENA_CORRECTA = "1234";
+// === TUS DATOS DE ACCESO ===
+const USUARIO_CORRECTO = "Josetapias";
+const CONTRASENA_CORRECTA = "1234";  // ✅ Asegúrate que coincida
 
-  // ELEMENTOS
-  const pantallaLogin = document.getElementById("pantalla-login");
-  const pantallaPrincipal = document.getElementById("pantalla-principal");
-  const campoUsuario = document.getElementById("campo-usuario");
-  const campoClave = document.getElementById("campo-clave");
-  const botonIngresar = document.getElementById("boton-ingresar");
-  const mensajeError = document.getElementById("mensaje-error");
-  const botonSalir = document.getElementById("boton-salir");
-  const botonCredencial = document.getElementById("boton-credencial");
+// === ELEMENTOS — CORREGIDOS ===
+const pantallaLogin = document.getElementById("pantalla-login");
+const pantallaPrincipal = document.getElementById("pantalla-principal");
+const campoUsuario = document.getElementById("campo-usuario");
+const campoClave = document.getElementById("campo-clave");
+const botonIngresar = document.getElementById("boton-ingresar");
+const mensajeError = document.getElementById("mensaje-error");
+const botonSalir = document.getElementById("boton-salir");
 
-  // ✅ FUNCIÓN DE INICIO DE SESIÓN — CORREGIDA
-  function verificarAcceso() {
-    const usuarioIngresado = campoUsuario.value.trim();
-    const claveIngresada = campoClave.value.trim();
+// === FUNCIÓN DE INGRESO ===
+function verificarAcceso() {
+  const usuarioIngresado = campoUsuario.value.trim();
+  const claveIngresada = campoClave.value.trim();
 
-    if (usuarioIngresado === USUARIO_CORRECTO && claveIngresada === CONTRASENA_CORRECTA) {
-      // ✅ ACCESO CORRECTO
-      pantallaLogin.style.display = "none";
-      pantallaPrincipal.style.display = "block";
-      mensajeError.style.display = "none";
-    } else {
-      // ❌ DATOS INCORRECTOS
-      mensajeError.style.display = "block";
-    }
+  if (usuarioIngresado === USUARIO_CORRECTO && claveIngresada === CONTRASENA_CORRECTA) {
+    // ✅ ACCESO CORRECTO
+    pantallaLogin.style.display = "none";
+    pantallaPrincipal.style.display = "block";
+    mensajeError.style.display = "none";
+  } else {
+    // ❌ DATOS INCORRECTOS
+    mensajeError.style.display = "block";
   }
+}
 
-  // MOSTRAR IMAGEN EN CASO
-  function mostrarImagen(input, idVista) {
-    if (input.files && input.files[0]) {
-      const lector = new FileReader();
-      lector.onload = function(e) {
-        const vista = document.getElementById(idVista);
-        vista.querySelector("img").src = e.target.result;
-        vista.classList.add("mostrada");
-      };
-      lector.readAsDataURL(input.files[0]);
-    }
+// === CONECTAR BOTONES ===
+botonIngresar.addEventListener("click", verificarAcceso);
+
+// Permitir entrar con la tecla Enter
+campoClave.addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    verificarAcceso();
   }
+});
 
-  // ABRIR/CERRAR SECCIONE
+// Cerrar sesión
+botonSalir.addEventListener("click", function() {
+  pantallaPrincipal.style.display = "none";
+  pantallaLogin.style.display = "flex";
+  campoUsuario.value = "";
+  campoClave.value = "";
+  mensajeError.style.display = "none";
+});
+</script>
