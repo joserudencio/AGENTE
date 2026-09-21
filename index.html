@@ -344,7 +344,7 @@
 <body>
 
   <!-- === LOGIN === -->
-  <div id="pantallaLogin">
+  *<div id="pantallaLogin">
     <h1 class="titulo-login">◈ SISTEMA DE SEGURIDAD ◈</h1>
     
     <label>USUARIO:</label>
@@ -357,7 +357,44 @@
     <p id="mensajeError">❌ USUARIO O CONTRASEÑA INCORRECTOS</p>
   </div>
 
-  <!-- === PANEL PRINCIPAL === -->
+<script>
+  const USUARIO_VALIDO = "Josetapias";
+  const CLAVE_VALIDA = "Mamita123";
+
+  const campoUsuario = document.getElementById("campoUsuario");
+  const campoClave = document.getElementById("campoClave");
+  const botonIngresar = document.getElementById("botonIngresar");
+  const mensajeError = document.getElementById("mensajeError");
+
+  function verificarAcceso() {
+    const usuario = campoUsuario.value.trim();
+    const clave = campoClave.value.trim();
+
+    if (usuario === USUARIO_VALIDO && clave === CLAVE_VALIDA) {* 
+      mensajeError.style.display = "none";
+      alert("✅ ACCESO CONCEDIDO\nBienvenido, " + usuario);
+      // Cambia esta línea por tu página real:
+      window.location.href = "https://joserudencio.github.io/AGENTE/";
+    } else {
+      mensajeError.style.display = "block";
+    }
+  }
+
+  botonIngresar.addEventListener("click", verificarAcceso);
+  
+  // Permite presionar Enter para ingresar
+  campoClave.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") verificarAcceso();
+  });
+  campoUsuario.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") verificarAcceso();
+  });
+</script>
+
+</body>
+</html>>
+       
+  <!-- === PANEL PRINCIPAL
   <div id="pantallaPrincipal">
     <div class="barra-superior">
       <div>
