@@ -297,7 +297,7 @@
 </head>
 <body>
 
-  <!-- === LOGIN === -->
+<!-- === LOGIN === -->
   <div id="pantallaLogin">
     <div class="caja-login">
       <h1 class="titulo-login">◈ SISTEMA DE SEGURIDAD — AGENTE ◈</h1>
@@ -306,13 +306,12 @@
       <input type="text" id="campoUsuario" value="Josetapias">
       
       <label>CONTRASEÑA:</label>
-      <input type="password" id="campoClave" placeholder="Escribe tu contraseña...">
+      <input type="password" id="campoClave" placeholder="Escribe tu contraseña..." onkeypress="if(event.key==='Enter') entrar()">
       
-      <button id="botonIngresar" type="button">▶️ INGRESAR AL SISTEMA</button>
+      <button type="button" id="botonIngresar" onclick="entrar()">▶️ INGRESAR AL SISTEMA</button>
       <p id="mensajeError">❌ USUARIO O CONTRASEÑA INCORRECTOS</p>
     </div>
   </div>
-
   <!-- === PANEL PRINCIPAL === -->
   <div id="pantallaPrincipal">
     <div class="barra-superior">
@@ -482,20 +481,20 @@
 
   let baseActiva = "";
 
-  // === FUNCIÓN DE INGRESO ===
-  function entrar() {
-    const u = campoUsuario.value.trim();
-    const c = campoClave.value.trim();
-    
-    if (u === USUARIO_VALIDO && c === CLAVE_VALIDA) {
-      pantallaLogin.style.display = "none";
-      pantallaPrincipal.style.display = "block";
-      nombreUsuario.textContent = u;
-      mensajeError.style.display = "none";
-    } else {
-      mensajeError.style.display = "block";
-    }
-  }
+  // === FUNCIÓN DE INGRESO — ARREGLADA ===
+   function entrar() {
+     const u = document.getElementById("campoUsuario").value.trim();
+     const c = document.getElementById("campoClave").value.trim();
+     
+     if (u === USUARIO_VALIDO && c === CLAVE_VALIDA) {
+       document.getElementById("pantallaLogin").style.display = "none";
+       document.getElementById("pantallaPrincipal").style.display = "block";
+       document.getElementById("nombreUsuario").textContent = u;
+       document.getElementById("mensajeError").style.display = "none";
+     } else {
+       document.getElementById("mensajeError").style.display = "block";
+     }
+   }
 
   function salir() {
     pantallaPrincipal.style.display = "none";
