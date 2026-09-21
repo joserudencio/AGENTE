@@ -277,14 +277,6 @@
       background: rgba(255, 170, 0, 0.15);
     }
 
-    .imagen-base {
-      width: 100%;
-      border-radius: 8px;
-      border: 2px solid #00ff66;
-      margin-bottom: 20px;
-      display: none;
-    }
-
     .btn-detalles {
       width: 100%;
       padding: 14px;
@@ -626,7 +618,7 @@
     <label class="etiqueta">CONTRASEÑA:</label>
     <input type="password" id="clave" placeholder="Escriba su contraseña...">
 
-    <button class="btn-ingresar" onclick="verificarAcceso()">▶️ INGRESAR AL SISTEMA</button>
+    <button class="btn-ingresar" id="botonIngresar">▶️ INGRESAR AL SISTEMA</button>
     <p class="error" id="errorCredencial">❌ USUARIO O CONTRASEÑA INCORRECTOS</p>
   </div>
 
@@ -637,38 +629,38 @@
         <div class="titulo-db">◈ SELECCIÓN DE BASE DE DATOS</div>
         <div class="info-usuario">Bienvenido, <span class="resaltado" id="nombreUsuario">---</span> • Sesión Activa</div>
       </div>
-      <button class="btn-credencial" onclick="abrirCredencial()">📋 CREDENCIAL OFICIAL</button>
-      <button class="btn-salir" onclick="cerrarSesión()">◀️ SALIR</button>
+      <button class="btn-credencial" id="botonCredencial">📋 CREDENCIAL OFICIAL</button>
+      <button class="btn-salir" id="botonSalir">◀️ SALIR</button>
     </div>
 
     <!-- BOTONES DE BASES -->
     <div class="contenedor-botones">
-      <div class="boton-db" onclick="mostrarBase('marina')">
+      <div class="boton-db" id="botonMarina">
         <div class="icono-db">⚓</div>
         <div class="nombre-db">BASE MARINA</div>
         <div class="descripcion-db">Flota Naval — Operaciones Marítimas</div>
       </div>
-      <div class="boton-db" onclick="mostrarBase('policia')">
+      <div class="boton-db" id="botonPolicia">
         <div class="icono-db">🛡️</div>
         <div class="nombre-db">POLICÍA NACIONAL</div>
         <div class="descripcion-db">Seguridad — Inteligencia</div>
       </div>
-      <div class="boton-db" onclick="mostrarBase('aerea')">
+      <div class="boton-db" id="botonAerea">
         <div class="icono-db">✈️</div>
         <div class="nombre-db">FUERZA AÉREA</div>
         <div class="descripcion-db">Defensa — Flota de Combate</div>
       </div>
-      <div class="boton-db" onclick="mostrarBase('mundial')">
+      <div class="boton-db" id="botonMundial">
         <div class="icono-db">🌍</div>
         <div class="nombre-db">BASE MUNDIAL</div>
         <div class="descripcion-db">Red Internacional — Alianzas</div>
       </div>
-      <div class="boton-db" onclick="mostrarBase('espacial')">
+      <div class="boton-db" id="botonEspacial">
         <div class="icono-db">🛰️</div>
         <div class="nombre-db">COMANDO ESPACIAL</div>
         <div class="descripcion-db">Satelital — Vigilancia Orbital</div>
       </div>
-      <div class="boton-db boton-nasa" onclick="mostrarNasa()">
+      <div class="boton-db boton-nasa" id="botonNasa">
         <div class="icono-db">🚀</div>
         <div class="nombre-db nombre-nasa">BASE NASA</div>
         <div class="descripcion-db descripcion-nasa">Proyectos Espaciales — Confidencial</div>
@@ -677,16 +669,16 @@
 
     <!-- VISOR BASES -->
     <div class="visor" id="visorBase">
-      <button class="cerrar-visor" onclick="cerrarVisor()">◀️ REGRESAR</button>
+      <button class="cerrar-visor" id="botonCerrarVisor">◀️ REGRESAR</button>
       <h3 style="color:#00ff66; margin-bottom:15px" id="tituloBase">---</h3>
       <img id="imgBase" class="imagen-base" alt="Base de Datos">
-      <button class="btn-detalles" id="btnDet" onclick="pedirClave()">🔒 MÁS DETALLES — NIVEL CONFIDENCIAL</button>
+      <button class="btn-detalles" id="botonDetalles">🔒 MÁS DETALLES — NIVEL CONFIDENCIAL</button>
       
       <div class="ventana-clave" id="ventanaClave">
         <h4>🔐 AUTORIZACIÓN REQUERIDA</h4>
         <label class="etiqueta">Contraseña de nivel confidencial:</label>
         <input type="password" id="claveDet" placeholder="Escriba la contraseña...">
-        <button class="btn-verificar" onclick="verificarClave()">✓ VERIFICAR</button>
+        <button class="btn-verificar" id="botonVerDet">✓ VERIFICAR</button>
         <div class="mensaje-acceso acceso-ok" id="okDet">✅ ACCESO AUTORIZADO</div>
         <div class="mensaje-acceso acceso-denegado" id="noDet">❌ CONTRASEÑA INCORRECTA</div>
         <div class="contenido-detalles" id="detallesBase">
@@ -698,21 +690,21 @@
 
     <!-- VISOR NASA -->
     <div class="visor visor-nasa" id="visorNasa">
-      <button class="cerrar-visor" onclick="cerrarVisorNasa()">◀️ REGRESAR</button>
+      <button class="cerrar-visor" id="botonCerrarNasa">◀️ REGRESAR</button>
       <h3 style="color:#00aaff; margin-bottom:20px; text-align:center;">🚀 BASE DE DATOS — NASA</h3>
       <p style="color:#66aaff; text-align:center; margin-bottom:20px;">Seleccione el archivo confidencial</p>
       <div class="subarchivos">
-        <button class="btn-detalles btn-archivo" onclick="abrirArchivo('234')">📁 ARCHIVO #234</button>
-        <button class="btn-detalles btn-archivo" onclick="abrirArchivo('456')">📁 ARCHIVO #456</button>
-        <button class="btn-detalles btn-archivo" onclick="abrirArchivo('384')">📁 ARCHIVO #384</button>
-        <button class="btn-detalles btn-archivo" onclick="abrirArchivo('278')">📁 ARCHIVO #278</button>
+        <button class="btn-detalles btn-archivo" id="archivo234">📁 ARCHIVO #234</button>
+        <button class="btn-detalles btn-archivo" id="archivo456">📁 ARCHIVO #456</button>
+        <button class="btn-detalles btn-archivo" id="archivo384">📁 ARCHIVO #384</button>
+        <button class="btn-detalles btn-archivo" id="archivo278">📁 ARCHIVO #278</button>
       </div>
       
       <div class="ventana-clave ventana-nasa" id="ventanaArchivo">
         <h4>🔐 ACCESO RESTRINGIDO — ARCHIVO #<span id="numArch">---</span></h4>
         <label class="etiqueta">Contraseña de autorización:</label>
         <input type="password" id="claveArch" placeholder="Escriba la contraseña...">
-        <button class="btn-verificar" onclick="verificarArchivo()">✓ VERIFICAR</button>
+        <button class="btn-verificar" id="botonVerArch">✓ VERIFICAR</button>
         <div class="mensaje-acceso acceso-ok" id="okArch">✅ ACCESO CONCEDIDO — Bienvenido Agente</div>
         <div class="mensaje-acceso acceso-denegado" id="noArch">❌ ACCESO DENEGADO</div>
         <div class="contenido-detalles" id="contenidoArch">
@@ -735,7 +727,7 @@
 
       <label class="etiqueta" style="color:#ffdd00;">🔐 CÓDIGO DE AUTORIZACIÓN:</label>
       <input type="password" id="claveCred" placeholder="Escriba su contraseña especial...">
-      <button class="btn-verificar-clave" onclick="verificarCredencial()">✓ CONFIRMAR IDENTIDAD</button>
+      <button class="btn-verificar-clave" id="botonVerCred">✓ CONFIRMAR IDENTIDAD</button>
       
       <div class="mensaje-acceso acceso-ok" id="okCred">✅ IDENTIDAD VERIFICADA — DOCUMENTO DESBLOQUEADO</div>
       <div class="mensaje-acceso acceso-denegado" id="noCred">❌ CÓDIGO INCORRECTO — ACCESO DENEGADO</div>
@@ -743,4 +735,7 @@
       <div class="datos-credencial" id="datosCred">
         <h3 class="seccion-titulo">📋 DATOS DE IDENTIFICACIÓN</h3>
         <div class="bloque-datos">
-          <div class="fila-dato"><span class="etiqueta-dato">Nombre Com
+          <div class="fila-dato"><span class="etiqueta-dato">Nombre Completo:</span><span class="valor-dato">José Rudencio Tapias</span></div>
+          <div class="fila-dato"><span class="etiqueta-dato">Documento / C.I.:</span><span class="valor-dato">09XXXXXX-0</span></div>
+          <div class="fila-dato"><span class="etiqueta-dato">Nacionalidad:</span><span class="valor-dato">Ecuatoriana 🇪🇨</span></div>
+          <div class="fila-dato"><s
