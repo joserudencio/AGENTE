@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SISTEMA DE SEGURIDAD — ACCESO TOTAL</title>
+  <style>
+    * {margin:0;padding:0;box-sizing:border-box;font-family:'Courier New',monospace}
+    
+    body {
+      background: #050505;
+      min-height: 100vh;
+      padding: 20px;
+      background-image: 
+        linear-gradient(rgba(0, 255, 100, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 100, 0.03) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* === LOGIN PRINCIPAL === */
+    .caja-login {
+      background: rgba(0, 20, 10, 0.9);
+      border: 2px solid #00ff66;
+      border-radius: 12px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 450px;
+      margin: 0 auto;
+      box-shadow: 0 0 30px rgba(0, 255, 100, 0.25), inset 0 0 15px rgba(0, 255, 100, 0.1);
+    }
+
+    .encabezado {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      color: #00ff66;
+      font-size: 24px;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(0, 255, 100, 0.6);
+      margin-bottom: 5px;
+    }
+
+    .subtitulo {
+      color: #66aa77;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    .etiqueta {
+      color: #88ffaa;
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 20px;
+      background: rgba(0, 40, 20, 0.5);
+      border: 2px solid #00aa44;
+      border-radius: 6px;
+      color: #00ff66;
+      font-size: 16px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #00ff66;
+      box-shadow: 0 0 12px rgba(0, 255, 100, 0.4);
+    }
+
+    .btn-ingresar {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #008833, #00ff66);
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 15px rgba(0, 255, 100, 0.3);
+    }
+
+    .btn-ingresar:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 25px rgba(0, 255, 100, 0.6);
+    }
+
+    .error {
+      color: #ff4444;
+      margin-top: 15px;
+      display: none;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* === PANEL PRINCIPAL === */
+    .panel-db {
+      background: rgba(0, 15, 10, 0.95);
+      border: 2px solid #00ff66;
+      border-radius: 12px;
+      padding: 30px;
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+      box-shadow: 0 0 40px rgba(0, 255, 100, 0.2);
+      display: none;
+      animation: aparecer 0.4s ease;
+    }
+
+    .barra-superior {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #004422;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .titulo-db {
+      color: #00ff66;
+      font-size: 18px;
+      font-weight: bold;
+      text-shadow: 0 0 8px rgba(0, 255, 100, 0.4);
+    }
+
+    .info-usuario {
+      color: #88ffaa;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .resaltado {
+      color: #ffdd00;
+      font-weight: bold;
+    }
+
+    .btn-credencial {
+      background: linear-gradient(135deg, #ffcc00, #ffdd44);
+      border: none;
+      border-radius: 20px;
+      padding: 9px 18px;
+      color: #000;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 12px rgba(255, 204, 0, 0.4);
+    }
+
+    .btn-credencial:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 204, 0, 0.7);
+    }
+
+    .btn-salir {
+      background: transparent;
+      border: 1px solid #ff4444;
+      color: #ff6666;
+      padding: 9px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn-salir:hover {
+      background: rgba(255, 68, 68, 0.15);
+    }
+
+    /* === BOTONES BASES DE DATOS === */
+    .contenedor-botones {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .boton-db {
+      background: rgba(0, 30, 15, 0.6);
+      border: 2px solid #00aa44;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .boton-db:hover {
+      border-color: #00ff66;
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(0, 255, 100, 0.35);
+      background: rgba(0, 50, 25, 0.7);
+    }
+
+    .boton-nasa {
+      border-color: #0066cc;
+      background: rgba(0, 20, 60, 0.6);
+    }
+
+    .boton-nasa:hover {
+      border-color: #00aaff;
+      box-shadow: 0 0 20px rgba(0, 170, 255, 0.4);
+      background: rgba(0, 30, 90, 0.7);
+    }
+
+    .icono-db {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .nombre-db {
+      color: #00ff66;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .nombre-nasa {
+      color: #00aaff;
+    }
+
+    .descripcion-db {
+      color: #66aa77;
+      font-size: 11px;
+    }
+
+    .descripcion-nasa {
+      color: #66aaff;
+    }
+
+    /* === VISOR GENERAL === */
+    .visor {
+      margin-top: 25px;
+      padding: 25px;
+      background: rgba(0, 20, 10, 0.5);
+      border-radius: 10px;
+      border: 1px solid #004422;
+      display: none;
+      animation: aparecer 0.4s ease;
+    }
+
+    .visor.visor-activo {
+      display: block;
+    }
+
+    .visor-nasa {
+      border-color: #0066cc;
+      background: rgba(0, 15, 40, 0.5);
+    }
+
+    .cerrar-visor {
+      background: transparent;
+      border: 1px solid #ffaa00;
+      color: #ffcc00;
+      padding: 8px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 15px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .cerrar-visor:hover {
+      background: rgba(255, 170, 0, 0.15);
+    }
+
+    .imagen-base {
+      width: 100%;
+      border-radius: 8px;
+      border: 2px solid #00ff66;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .btn-detalles {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #0044aa, #0088ff);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    .btn-detalles:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px rgba(0, 136, 255, 0.4);
+    }
+
+    .btn-archivo {
+      background: linear-gradient(135deg, #4400aa, #8844ff);
+      margin: 8px 0;
+    }
+
+    .ventana-clave {
+      margin-top: 20px;
+      padding: 25px;
+      background: rgba(30, 30, 60, 0.8);
+      border: 2px solid #ffaa00;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .ventana-clave.visible {
+      display: block;
+      animation: aparecer 0.4s ease;
+    }
+
+    .ventana-nasa {
+      border-color: #00aaff;
+      background: rgba(0, 20, 60, 0.85);
+    }
+
+    .ventana-clave h4 {
+      color: #ffcc00;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .ventana-nasa h4 {
+      color: #00ccff;
+    }
+
+    .btn-verificar {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #0066cc, #00ccff);
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    .btn-verificar:hover {
+      box-shadow: 0 0 15px rgba(0, 204, 255, 0.4);
+    }
+
+    .mensaje-acceso {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: bold;
+      display: none;
+    }
+
+    .acceso-ok {
+      background: rgba(0, 255, 100, 0.1);
+      border: 1px solid #00ff66;
+      color: #00ff66;
+    }
+
+    .acceso-denegado {
+      background: rgba(255, 68, 68, 0.1);
+      border: 1px solid #ff4444;
+      color: #ff6666;
+    }
+
+    .contenido-detalles {
+      margin-top: 20px;
+      padding: 25px;
+      background: rgba(0, 30, 60, 0.6);
+      border: 2px solid #00ff66;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .contenido-detalles.visible {
+      display: block;
+      animation: aparecer 0.5s ease;
+    }
+
+    .contenido-detalles h3 {
+      color: #00ccff;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .subarchivos {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .espacio-img {
+      border: 2px dashed #0066cc;
+      border-radius: 8px;
+      padding: 30px;
+      text-align: center;
+      color: #66aaff;
+      margin: 15px 0;
+      background: rgba(0, 100, 200, 0.05);
+    }
+
+    /* === VENTANA CREDENCIAL OFICIAL === */
+    .ventana-credencial {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.92);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .ventana-credencial.activa {
+      display: flex;
+      animation: aparecer 0.4s ease;
+    }
+
+    .caja-credencial {
+      background: linear-gradient(180deg, #1a1a00, #2b2b00, #1a1a00);
+      border: 4px solid #ffdd00;
+      border-radius: 20px;
+      padding: 35px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 0 50px rgba(255, 221, 0, 0.35), inset 0 0 30px rgba(255, 221, 0, 0.1);
+    }
+
+    .encabezado-credencial {
+      text-align: center;
+      margin-bottom: 25px;
+      border-bottom: 2px solid #ffdd00;
+      padding-bottom: 20px;
+    }
+
+    .sello-oficial {
+      color: #ffdd00;
+      font-size: 12px;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .titulo-credencial {
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 221, 0, 0.6);
+    }
+
+    .subtitulo-credencial {
+      color: #ffcc66;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .seccion-titulo {
+      color: #ffcc66;
+      font-size: 14px;
+      font-weight: bold;
+      margin: 20px 0 10px 0;
+      border-bottom: 1px solid #665500;
+      padding-bottom: 5px;
+    }
+
+    .bloque-datos {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #ccaa00;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 12px;
+    }
+
+    .fila-dato {
+      display: flex;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px dashed #444400;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .fila-dato:last-child { border-bottom: none; }
+
+    .etiqueta-dato {
+      color: #ffdd00;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .valor-dato {
+      color: #ffffcc;
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .valor-dato.destacado {
+      color: #00ff66;
+      font-weight: bold;
+      text-shadow: 0 0 5px rgba(0, 255, 100, 0.4);
+    }
+
+    .valor-dato.nivel-max {
+      color: #ffdd00;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .barra-nivel {
+      width: 100%;
+      height: 18px;
+      background: #222200;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+
+    .relleno-nivel {
+      height: 100%;
+      background: linear-gradient(90deg, #ffcc00, #ffff00);
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .sello-vigente {
+      text-align: center;
+      margin: 15px 0;
+      padding: 12px;
+      border: 2px solid #00ff66;
+      border-radius: 8px;
+      color: #00ff66;
+      font-weight: bold;
+      background: rgba(0, 255, 100, 0.08);
+    }
+
+    .firma-seccion {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 11px;
+      color: #887700;
+      border-top: 1px solid #444400;
+      padding-top: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .datos-credencial {
+      display: none;
+      margin-top: 20px;
+      animation: aparecer 0.5s ease;
+    }
+
+    .datos-credencial.visibles {
+      display: block;
+    }
+
+    .btn-verificar-clave {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #cc9900, #ffdd00);
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    .btn-verificar-clave:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px rgba(255, 221, 0, 0.5);
+    }
+
+    .btn-cerrar {
+      background: transparent;
+      border: 1px solid #ff6666;
+      color: #ff6666;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+      font-weight: bold;
+      width: 100%;
+      transition: 0.3s;
+    }
+
+    .btn-cerrar:hover {
+      background: rgba(255, 68, 68, 0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === INICIO DE SESIÓN === -->
+  <div class="caja-login" id="pantallaLogin">
+    <div class="encabezado">
+      <div class="logo">◈ SISTEMA DE SEGURIDAD ◈</div>
+      <p class="subtitulo">ACCESO RESTRINGIDO • NIVEL AUTORIZADO</p>
+    </div>
+
+    <label class="etiqueta">USUARIO:</label>
+    <input type="text" id="usuario" placeholder="Escriba su usuario...">
+
+    <label class="etiqueta">CONTRASEÑA:</label>
+    <input type="password" id="clave" placeholder="Escriba su contraseña...">
+
+    <button class="btn-ingresar" onclick="verificarAcceso()">▶️ INGRESAR AL SISTEMA</button>
+    <p class="error" id="errorCredencial">❌ USUARIO O CONTRASEÑA INCORRECTOS</p>
+  </div>
+
+  <!-- === PANEL PRINCIPAL === -->
+  <div class="panel-db" id="pantallaDB">
+    <div class="barra-superior">
+      <div>
+        <div class="titulo-db">◈ SELECCIÓN DE BASE DE DATOS</div>
+        <div class="info-usuario">Bienvenido, <span class="resaltado" id="nombreUsuario">---</span> • Sesión Activa</div>
+      </div>
+      <button class="btn-credencial" onclick="abrirCredencial()">📋 CREDENCIAL OFICIAL</button>
+      <button class="btn-salir" onclick="cerrarSesión()">◀️ SALIR</button>
+    </div>
+
+    <!-- BOTONES DE BASES -->
+    <div class="contenedor-botones">
+      <div class="boton-db" onclick="mostrarBase('marina')">
+        <div class="icono-db">⚓</div>
+        <div class="nombre-db">BASE MARINA</div>
+        <div class="descripcion-db">Flota Naval — Operaciones Marítimas</div>
+      </div>
+      <div class="boton-db" onclick="mostrarBase('policia')">
+        <div class="icono-db">🛡️</div>
+        <div class="nombre-db">POLICÍA NACIONAL</div>
+        <div class="descripcion-db">Seguridad — Inteligencia</div>
+      </div>
+      <div class="boton-db" onclick="mostrarBase('aerea')">
+        <div class="icono-db">✈️</div>
+        <div class="nombre-db">FUERZA AÉREA</div>
+        <div class="descripcion-db">Defensa — Flota de Combate</div>
+      </div>
+      <div class="boton-db" onclick="mostrarBase('mundial')">
+        <div class="icono-db">🌍</div>
+        <div class="nombre-db">BASE MUNDIAL</div>
+        <div class="descripcion-db">Red Internacional — Alianzas</div>
+      </div>
+      <div class="boton-db" onclick="mostrarBase('espacial')">
+        <div class="icono-db">🛰️</div>
+        <div class="nombre-db">COMANDO ESPACIAL</div>
+        <div class="descripcion-db">Satelital — Vigilancia Orbital</div>
+      </div>
+      <div class="boton-db boton-nasa" onclick="mostrarNasa()">
+        <div class="icono-db">🚀</div>
+        <div class="nombre-db nombre-nasa">BASE NASA</div>
+        <div class="descripcion-db descripcion-nasa">Proyectos Espaciales — Confidencial</div>
+      </div>
+    </div>
+
+    <!-- VISOR BASES -->
+    <div class="visor" id="visorBase">
+      <button class="cerrar-visor" onclick="cerrarVisor()">◀️ REGRESAR</button>
+      <h3 style="color:#00ff66; margin-bottom:15px" id="tituloBase">---</h3>
+      <img id="imgBase" class="imagen-base" alt="Base de Datos">
+      <button class="btn-detalles" id="btnDet" onclick="pedirClave()">🔒 MÁS DETALLES — NIVEL CONFIDENCIAL</button>
+      
+      <div class="ventana-clave" id="ventanaClave">
+        <h4>🔐 AUTORIZACIÓN REQUERIDA</h4>
+        <label class="etiqueta">Contraseña de nivel confidencial:</label>
+        <input type="password" id="claveDet" placeholder="Escriba la contraseña...">
+        <button class="btn-verificar" onclick="verificarClave()">✓ VERIFICAR</button>
+        <div class="mensaje-acceso acceso-ok" id="okDet">✅ ACCESO AUTORIZADO</div>
+        <div class="mensaje-acceso acceso-denegado" id="noDet">❌ CONTRASEÑA INCORRECTA</div>
+        <div class="contenido-detalles" id="detallesBase">
+          <h3>📄 INFORMACIÓN CONFIDENCIAL</h3>
+          <p style="color:#aaffaa; text-align:center; padding:20px;">Contenido restringido — Solo personal autorizado<br>Edita el código para agregar datos reales</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISOR NASA -->
+    <div class="visor visor-nasa" id="visorNasa">
+      <button class="cerrar-visor" onclick="cerrarVisorNasa()">◀️ REGRESAR</button>
+      <h3 style="color:#00aaff; margin-bottom:20px; text-align:center;">🚀 BASE DE DATOS — NASA</h3>
+      <p style="color:#66aaff; text-align:center; margin-bottom:20px;">Seleccione el archivo confidencial</p>
+      <div class="subarchivos">
+        <button class="btn-detalles btn-archivo" onclick="abrirArchivo('234')">📁 ARCHIVO #234</button>
+        <button class="btn-detalles btn-archivo" onclick="abrirArchivo('456')">📁 ARCHIVO #456</button>
+        <button class="btn-detalles btn-archivo" onclick="abrirArchivo('384')">📁 ARCHIVO #384</button>
+        <button class="btn-detalles btn-archivo" onclick="abrirArchivo('278')">📁 ARCHIVO #278</button>
+      </div>
+      
+      <div class="ventana-clave ventana-nasa" id="ventanaArchivo">
+        <h4>🔐 ACCESO RESTRINGIDO — ARCHIVO #<span id="numArch">---</span></h4>
+        <label class="etiqueta">Contraseña de autorización:</label>
+        <input type="password" id="claveArch" placeholder="Escriba la contraseña...">
+        <button class="btn-verificar" onclick="verificarArchivo()">✓ VERIFICAR</button>
+        <div class="mensaje-acceso acceso-ok" id="okArch">✅ ACCESO CONCEDIDO — Bienvenido Agente</div>
+        <div class="mensaje-acceso acceso-denegado" id="noArch">❌ ACCESO DENEGADO</div>
+        <div class="contenido-detalles" id="contenidoArch">
+          <h3>📄 ARCHIVO CONFIDENCIAL</h3>
+          <div class="espacio-img">📎 Pega aquí tu imagen o enlace</div>
+          <p style="color:#aaffff; text-align:center;">Estado: <span style="color:#00ff66; font-weight:bold;">DESBLOQUEADO</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === CREDENCIAL OFICIAL COMPLETA === -->
+  <div class="ventana-credencial" id="ventanaCredencial">
+    <div class="caja-credencial">
+      <div class="encabezado-credencial">
+        <div class="sello-oficial">DOCUMENTO OFICIAL • NO TRANSFERIBLE</div>
+        <h2 class="titulo-credencial">★ CREDENCIAL DE AGENTE ★</h2>
+        <p class="subtitulo-credencial">SISTEMA DE SEGURIDAD INTERNA — NIVEL EJECUTIVO</p>
+      </div>
+
+      <label class="etiqueta" style="color:#ffdd00;">🔐 CÓDIGO DE AUTORIZACIÓN:</label>
+      <input type="password" id="claveCred" placeholder="Escriba su contraseña especial...">
+      <button class="btn-verificar-clave" onclick="verificarCredencial()">✓ CONFIRMAR IDENTIDAD</button>
+      
+      <div class="mensaje-acceso acceso-ok" id="okCred">✅ IDENTIDAD VERIFICADA — DOCUMENTO DESBLOQUEADO</div>
+      <div class="mensaje-acceso acceso-denegado" id="noCred">❌ CÓDIGO INCORRECTO — ACCESO DENEGADO</div>
+
+      <div class="datos-credencial" id="datosCred">
+        <h3 class="seccion-titulo">📋 DATOS DE IDENTIFICACIÓN</h3>
+        <div class="bloque-datos">
+          <div class="fila-dato"><span class="etiqueta-dato">Nombre Com
