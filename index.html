@@ -1,541 +1,74 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SISTEMA DE SEGURIDAD — AGENTE</title>
-  <style>
-    * {margin:0;padding:0;box-sizing:border-box;font-family:'Courier New',monospace}
-    
-    body {
-      background: #050505;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      background-image: 
-        linear-gradient(rgba(0, 255, 100, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 100, 0.03) 1px, transparent 1px);
-      background-size: 30px 30px;
-    }
-
-    @keyframes aparecer {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    /* === LOGIN === */
-    #pantallaLogin {
-      width: 100%;
-      max-width: 480px;
-    }
-    .caja-login {
-      background: rgba(0, 20, 10, 0.9);
-      border: 3px solid #00ff66;
-      border-radius: 15px;
-      padding: 40px 30px;
-      box-shadow: 0 0 30px rgba(0, 255, 100, 0.3);
-    }
-    .titulo-login {
-      color: #00ff66;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 30px;
-      text-shadow: 0 0 10px rgba(0,255,100,0.4);
-    }
-    label {
-      color: #88ffaa;
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      font-size: 18px;
-    }
-    input {
-      width: 100%;
-      padding: 16px;
-      margin-bottom: 25px;
-      background: rgba(0, 40, 20, 0.5);
-      border: 2px solid #00aa44;
-      border-radius: 8px;
-      color: #00ff66;
-      font-size: 18px;
-    }
-    input:focus {
-      outline: none;
-      border-color: #00ff66;
-      box-shadow: 0 0 12px rgba(0,255,100,0.4);
-    }
-    #botonIngresar {
-      width: 100%;
-      padding: 18px;
-      background: linear-gradient(135deg, #008833, #00ff66);
-      border: none;
-      border-radius: 8px;
-      color: #000;
-      font-size: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    #botonIngresar:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 20px rgba(0,255,100,0.5);
-    }
-    #mensajeError {
-      color: #ff4444;
-      margin-top: 15px;
-      text-align: center;
-      font-weight: bold;
-      display: none;
-      font-size: 16px;
-    }
-
-    /* === PANEL PRINCIPAL === */
-    #pantallaPrincipal {
-      display: none;
-      width: 100%;
-      max-width: 1000px;
-      animation: aparecer 0.4s ease;
-    }
-    .barra-superior {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #004422;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .titulo-panel {
-      color: #00ff66;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .bienvenida {
-      color: #88ffaa;
-      margin-top: 5px;
-    }
-    .resaltado {
-      color: #ffdd00;
-      font-weight: bold;
-    }
-    .btn-credencial {
-      background: linear-gradient(135deg, #ffcc00, #ffdd44);
-      border: none;
-      border-radius: 20px;
-      padding: 10px 20px;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .btn-credencial:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255,204,0,0.5);
-    }
-    .btn-salir {
-      background: transparent;
-      border: 1px solid #ff4444;
-      color: #ff6666;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.2s;
-    }
-    .btn-salir:hover {
-      background: rgba(255,68,68,0.15);
-    }
-
-    /* === BOTONES BASES === */
-    .contenedor-botones {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 18px;
-      margin-bottom: 30px;
-    }
-    .boton-base {
-      background: rgba(0, 30, 15, 0.6);
-      border: 2px solid #00aa44;
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .boton-base:hover {
-      border-color: #00ff66;
-      transform: translateY(-3px);
-      box-shadow: 0 0 20px rgba(0,255,100,0.3);
-    }
-    .boton-nasa {
-      border-color: #0066cc;
-      background: rgba(0, 20, 60, 0.6);
-    }
-    .boton-nasa:hover {
-      border-color: #00aaff;
-      box-shadow: 0 0 20px rgba(0,170,255,0.3);
-    }
-    .icono { font-size: 30px; margin-bottom: 8px; }
-    .nombre-base { color: #00ff66; font-weight: bold; margin-bottom: 4px; }
-    .nombre-nasa { color: #00aaff; }
-    .desc { color: #66aa77; font-size: 11px; }
-    .desc-nasa { color: #66aaff; }
-
-    /* === VISORES === */
-    .visor {
-      background: rgba(0, 20, 10, 0.5);
-      border: 1px solid #004422;
-      border-radius: 10px;
-      padding: 25px;
-      margin-top: 25px;
-      display: none;
-      animation: aparecer 0.4s ease;
-    }
-    .visor.activo { display: block; }
-    .visor-nasa { border-color: #0066cc; background: rgba(0,15,40,0.5); }
-    .btn-regresar {
-      background: transparent;
-      border: 1px solid #ffaa00;
-      color: #ffcc00;
-      padding: 8px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-    .btn-detalles {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, #0044aa, #0088ff);
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: 0.2s;
-    }
-    .btn-detalles:hover { transform: scale(1.02); }
-    .caja-clave {
-      margin-top: 20px;
-      padding: 25px;
-      background: rgba(30,30,60,0.8);
-      border: 2px solid #ffaa00;
-      border-radius: 10px;
-      display: none;
-    }
-    .caja-clave.visible { display: block; }
-    .caja-nasa { border-color: #00aaff; }
-    .mensaje-ok { color: #0f6; margin-top: 12px; display: none; font-weight: bold; }
-    .mensaje-no { color: #f44; margin-top: 12px; display: none; font-weight: bold; }
-    .contenido-secreto {
-      margin-top: 20px;
-      padding: 25px;
-      background: rgba(0,30,60,0.6);
-      border: 2px solid #00ff66;
-      border-radius: 10px;
-      display: none;
-      color: #afc;
-      line-height: 1.8;
-    }
-    .contenido-secreto.visible { display: block; animation: aparecer 0.5s ease; }
-    .contenido-secreto h4 { color: #ffd700; margin: 15px 0 8px; }
-    .contenido-secreto ul { margin-left: 20px; margin-bottom: 15px; }
-    .contenido-secreto li { margin-bottom: 5px; }
-
-    /* === CREDENCIAL === */
-    .ventana-credencial {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.92);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-      padding: 15px;
-      overflow-y: auto;
-    }
-    .ventana-credencial.activa { display: flex; }
-    .caja-credencial {
-      background: linear-gradient(180deg, #1a1a00, #2b2b00, #1a1a00);
-      border: 4px solid #ffdd00;
-      border-radius: 20px;
-      padding: 35px;
-      max-width: 520px;
-      width: 100%;
-      box-shadow: 0 0 50px rgba(255,221,0,0.35);
-    }
-    .titulo-cred {
-      color: #fff;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 25px;
-      text-shadow: 0 0 10px rgba(255,221,0,0.5);
-    }
-    .datos-cred { display: none; margin-top: 20px; }
-    .datos-cred.visibles { display: block; animation: aparecer 0.5s ease; }
-    .fila {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px dashed #444;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
-    .etiqueta { color: #ffdd00; font-weight: bold; }
-    .valor { color: #ffffcc; }
-    .valor.destacado { color: #0f6; font-weight: bold; }
-    .btn-cerrar {
-      width: 100%;
-      margin-top: 20px;
-      padding: 12px;
-      background: transparent;
-      border: 1px solid #f44;
-      color: #f66;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  </style>
+  <title>PRUEBA</title>
 </head>
-<body>
+<body style="background:black; color:green; font-family:sans-serif; padding:20px;">
 
-  <!-- === LOGIN === -->
-  <div id="pantallaLogin">
-    <div class="caja-login">
-      <h1 class="titulo-login">◈ SISTEMA DE SEGURIDAD — AGENTE ◈</h1>
+  <h1>PRUEBA DE BOTÓN</h1>
+  
+  <label>USUARIO:</label>
+  <input type="text" id="u" value="Josetapias" style="padding:10px; font-size:18px; width:100%; margin:10px 0;">
+  
+  <label>CONTRASEÑA:</label>
+  <input type="password" id="c" style="padding:10px; font-size:18px; width:100%; margin:10px 0;">
+  
+  <button onclick="entrar()" style="padding:15px; font-size:20px; background:lime; border:none; width:100%; cursor:pointer;">
+    ✅ INGRESAR
+  </button>
+  
+  <p id="msg" style="color:red; margin-top:15px;"></p>
+
+  <script>
+    function entrar() {
+      const u = document.getElementById('u').value.trim();
+      const c = document.getElementById('c').value.trim();
       
-      <label>USUARIO:</label>
-      <input type="text" id="campoUsuario" placeholder="Escribe tu usuario..." value="Josetapias">
+      if (u === "Josetapias" && c === "Mamita123") {
+        document.body.innerHTML = "<h1 style='color:lime;'>✅ ENTRÓ BIEN!</h1><p>Funciona perfecto</p>";
+      } else {
+        document.getElementById('msg').textContent = "❌ Datos incorrectos: u="+u+" c="+c;
+      }
+    }
+  </script>
+</body>
+</html<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRUEBA</title>
+</head>
+<body style="background:black; color:green; font-family:sans-serif; padding:20px;">
+
+  <h1>PRUEBA DE BOTÓN</h1>
+  
+  <label>USUARIO:</label>
+  <input type="text" id="u" value="Josetapias" style="padding:10px; font-size:18px; width:100%; margin:10px 0;">
+  
+  <label>CONTRASEÑA:</label>
+  <input type="password" id="c" style="padding:10px; font-size:18px; width:100%; margin:10px 0;">
+  
+  <button onclick="entrar()" style="padding:15px; font-size:20px; background:lime; border:none; width:100%; cursor:pointer;">
+    ✅ INGRESAR
+  </button>
+  
+  <p id="msg" style="color:red; margin-top:15px;"></p>
+
+  <script>
+    function entrar() {
+      const u = document.getElementById('u').value.trim();
+      const c = document.getElementById('c').value.trim();
       
-      <label>CONTRASEÑA:</label>
-      <input type="password" id="campoClave" placeholder="Escribe tu contraseña...">
-      
-      <button id="botonIngresar">▶️ INGRESAR AL SISTEMA</button>
-      <p id="mensajeError">❌ USUARIO O CONTRASEÑA INCORRECTOS</p>
-    </div>
-  </div>
+      if (u === "Josetapias" && c === "Mamita123") {
+        document.body.innerHTML = "<h1 style='color:lime;'>✅ ENTRÓ BIEN!</h1><p>Funciona perfecto</p>";
+      } else {
+        document.getElementById('msg').textContent = "❌ Datos incorrectos: u="+u+" c="+c;
+      }
+    }
+  </script>
+</body>
+</html>
 
-  <!-- === PANEL PRINCIPAL === -->
-  <div id="pantallaPrincipal">
-    <div class="barra-superior">
-      <div>
-        <div class="titulo-panel">◈ SELECCIÓN DE BASE DE DATOS</div>
-        <div class="bienvenida">Bienvenido, <span class="resaltado" id="nombreUsuario">---</span></div>
-      </div>
-      <button class="btn-credencial" id="btnCredencial">📋 CREDENCIAL OFICIAL</button>
-      <button class="btn-salir" id="btnSalir">◀️ SALIR</button>
-    </div>
-
-    <div class="contenedor-botones">
-      <div class="boton-base" id="btnMarina">
-        <div class="icono">⚓</div>
-        <div class="nombre-base">BASE MARINA</div>
-        <div class="desc">Flota Naval — Operaciones Marítimas</div>
-      </div>
-      <div class="boton-base" id="btnPolicia">
-        <div class="icono">🛡️</div>
-        <div class="nombre-base">POLICÍA NACIONAL</div>
-        <div class="desc">Seguridad — Inteligencia</div>
-      </div>
-      <div class="boton-base" id="btnAerea">
-        <div class="icono">✈️</div>
-        <div class="nombre-base">FUERZA AÉREA</div>
-        <div class="desc">Defensa — Flota de Combate</div>
-      </div>
-      <div class="boton-base" id="btnMundial">
-        <div class="icono">🌍</div>
-        <div class="nombre-base">BASE MUNDIAL</div>
-        <div class="desc">Red Internacional — Alianzas</div>
-      </div>
-      <div class="boton-base" id="btnEspacial">
-        <div class="icono">🛰️</div>
-        <div class="nombre-base">COMANDO ESPACIAL</div>
-        <div class="desc">Satelital — Vigilancia Orbital</div>
-      </div>
-      <div class="boton-base boton-nasa" id="btnNasa">
-        <div class="icono">🚀</div>
-        <div class="nombre-base nombre-nasa">BASE NASA</div>
-        <div class="desc desc-nasa">Proyectos Espaciales — Confidencial</div>
-      </div>
-    </div>
-
-    <div class="visor" id="visorBase">
-      <button class="btn-regresar" id="btnRegresar">◀️ REGRESAR</button>
-      <h3 style="color:#0f6; margin-bottom:20px" id="tituloBase">---</h3>
-      <button class="btn-detalles" id="btnDetalles">🔒 MÁS DETALLES — NIVEL CONFIDENCIAL</button>
-      <div class="caja-clave" id="cajaClaveBase">
-        <label>Contraseña de autorización:</label>
-        <input type="password" id="claveBase" placeholder="Escribe la clave...">
-        <button class="btn-detalles" id="btnVerBase">✓ VERIFICAR</button>
-        <p class="mensaje-ok" id="okBase">✅ ACCESO AUTORIZADO</p>
-        <p class="mensaje-no" id="noBase">❌ CLAVE INCORRECTA</p>
-        <div class="contenido-secreto" id="contenidoBase"></div>
-      </div>
-    </div>
-
-    <div class="visor visor-nasa" id="visorNasa">
-      <button class="btn-regresar" id="btnRegresarNasa">◀️ REGRESAR</button>
-      <h3 style="color:#0af; text-align:center; margin-bottom:20px;">🚀 BASE NASA — ARCHIVOS CONFIDENCIALES</h3>
-      <button class="btn-detalles" id="arch234">📁 ARCHIVO #234</button>
-      <button class="btn-detalles" id="arch456">📁 ARCHIVO #456</button>
-      <button class="btn-detalles" id="arch384">📁 ARCHIVO #384</button>
-      <button class="btn-detalles" id="arch278">📁 ARCHIVO #278</button>
-      <div class="caja-clave caja-nasa" id="cajaClaveArch">
-        <h4 style="color:#0af; margin-bottom:15px;">🔐 ACCESO RESTRINGIDO — ARCHIVO #<span id="numArch">---</span></h4>
-        <label>Contraseña de autorización:</label>
-        <input type="password" id="claveArchivo" placeholder="Escribe la clave...">
-        <button class="btn-detalles" id="btnVerArch">✓ VERIFICAR</button>
-        <p class="mensaje-ok" id="okArch">✅ ACCESO CONCEDIDO</p>
-        <p class="mensaje-no" id="noArch">❌ ACCESO DENEGADO</p>
-        <div class="contenido-secreto" id="contenidoArch">
-          <h3 style="color:#0ff; text-align:center; margin-bottom:20px;">📄 ARCHIVO DESBLOQUEADO</h3>
-          <div id="textoArchivo"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ventana-credencial" id="ventanaCredencial">
-    <div class="caja-credencial">
-      <h2 class="titulo-cred">★ CREDENCIAL DE AGENTE ★</h2>
-      <label>Código de autorización:</label>
-      <input type="password" id="claveCredencial" placeholder="Escribe tu código...">
-      <button class="btn-detalles" id="btnVerCred">✓ CONFIRMAR IDENTIDAD</button>
-      <p class="mensaje-ok" id="okCred">✅ IDENTIDAD VERIFICADA</p>
-      <p class="mensaje-no" id="noCred">❌ CÓDIGO INCORRECTO</p>
-      <div class="datos-cred" id="datosCred">
-        <div class="fila"><span class="etiqueta">Nombre:</span><span class="valor">José Rudencio Tapias</span></div>
-        <div class="fila"><span class="etiqueta">Usuario:</span><span class="valor destacado">Josetapias</span></div>
-        <div class="fila"><span class="etiqueta">Código Agente:</span><span class="valor destacado">AGENTE-22-EC-001</span></div>
-        <div class="fila"><span class="etiqueta">Nacionalidad:</span><span class="valor">Ecuatoriana 🇪🇨</span></div>
-        <div class="fila"><span class="etiqueta">Nivel:</span><span class="valor destacado">MÁXIMA AUTORIZACIÓN ⭐⭐⭐⭐⭐</span></div>
-        <div class="fila"><span class="etiqueta">Estado:</span><span class="valor destacado">● VIGENTE Y ACTIVA</span></div>
-        <div class="fila"><span class="etiqueta">Correo:</span><span class="valor">arestapias2024@gmail.com</span></div>
-      </div>
-      <button class="btn-cerrar" id="btnCerrarCred">✕ CERRAR</button>
-    </div>
-  </div>
-
-<script>
-  // ✅ AHORA COINCIDE CON LO QUE TÚ ESCRIBES
-  const USUARIO_VALIDO = "Josetapias";
-  const CLAVE_VALIDA = "Mamita123";
-  const CLAVE_DETALLES = "Agente22";
-  const CLAVE_CREDENCIAL = "Agente22";
-
-  // CONTENIDO DE CADA BASE
-  const contenidoBases = {
-    marina: `
-      <h4>⚓ FLOTA NAVAL NACIONAL — COMANDO PRINCIPAL</h4>
-      <p><strong>Ubicación:</strong> Base Naval Principal — Guayaquil, Ecuador 🇪🇨</p>
-      <p><strong>Estado:</strong> ● ACTIVO — OPERATIVO</p>
-      <h4>📋 UNIDADES EN SERVICIO:</h4>
-      <ul>
-        <li>🚢 Buque de Guardacostas GC-101 — Patrulla Costera</li>
-        <li>🚤 Lancha Rápida LR-205 — Respuesta Inmediata</li>
-        <li>⛴️ Transporte Naval TN-302 — Logística y Abastecimiento</li>
-        <li>🔬 Unidad de Investigación Submarina — Zona Insular</li>
-      </ul>
-      <h4>🎯 MISIÓN:</h4>
-      <p>Protección de aguas territoriales, control de pesca ilegal, seguridad portuaria y ayuda humanitaria en el litoral ecuatoriano y islas Galápagos.</p>
-    `,
-    policia: `
-      <h4>🛡️ POLICÍA NACIONAL DEL ECUADOR — DIRECCIÓN DE INTELIGENCIA</h4>
-      <p><strong>Sede Central:</strong> Quito — Distrito Metropolitano</p>
-      <p><strong>Zona de Cobertura:</strong> Nacional</p>
-      <h4>📋 ÁREAS DE OPERACIÓN:</h4>
-      <ul>
-        <li>🔍 Inteligencia Preventiva y Análisis de Riesgos</li>
-        <li>🕵️ Investigación Criminal y Delincuencia Organizada</li>
-        <li>📡 Ciberseguridad y Delitos Informáticos</li>
-        <li>🤝 Cooperación Internacional INTERPOL</li>
-        <li>👮 Control de Fronteras y Migración</li>
-      </ul>
-      <h4>🎯 OBJETIVOS ACTUALES:</h4>
-      <p>Fortalecimiento de la seguridad ciudadana, modernización tecnológica, prevención de delitos digitales y protección de datos personales e institucionales.</p>
-    `,
-    aerea: `
-      <h4>✈️ FUERZA AÉREA ECUATORIANA — COMANDO DE DEFENSA AEROESPACIAL</h4>
-      <p><strong>Base Principal:</strong> Aeropuerto Internacional Mariscal Sucre — Tababela</p>
-      <p><strong>Estado:</strong> ● ALTA DISPONIBILIDAD</p>
-      <h4>📋 FLOTA ACTIVA:</h4>
-      <ul>
-        <li>🛩️ Cazas de Combate — Escuadrón 21 "Cóndor"</li>
-        <li>🚁 Helicópteros de Rescate y Transporte Táctico</li>
-        <li>🛫 Aviones de Vigilancia y Patrulla Fronteriza</li>
-        <li>🛰️ Sistema de Radares y Control Aeroespacial</li>
-        <li>🔬 Proyectos de Modernización y Nuevas Tecnologías</li>
-      </ul>
-      <h4>🎯 MISIÓN:</h4>
-      <p>Defensa del espacio aéreo nacional, apoyo a fuerzas terrestres y navales, transporte humanitario, rescate aéreo y monitoreo de fronteras.</p>
-    `,
-    mundial: `
-      <h4>🌍 BASE MUNDIAL — RED DE ALIANZAS ESTRATÉGICAS</h4>
-      <p><strong>Ubicación:</strong> Plataforma Digital Global — Conectividad Continua</p>
-      <p><strong>Estado:</strong> ● CONECTADO — 194 NACIONES</p>
-      <h4>📋 ALIANZAS Y ORGANISMOS:</h4>
-      <ul>
-        <li>🏛️ ONU — Organización de las Naciones Unidas</li>
-        <li>🌎 OEA — Organización de Estados Americanos</li>
-        <li>🤝 UNASUR — Integración Regional Suramericana</li>
-        <li>🔐 INTERPOL — Red Internacional de Policía</li>
-        <li>🛡️ OTAN — Cooperación en Seguridad Global (Asociado)</li>
-        <li>🌐 OMS — Organización Mundial de la Salud</li>
-      </ul>
-      <h4>🎯 PROPÓSITO:</h4>
-      <p>Coordinación internacional, respuesta conjunta ante emergencias, intercambio de inteligencia, tratados de paz, protección ambiental y desarrollo sostenible.</p>
-    `,
-    espacial: `
-      <h4>🛰️ COMANDO ESPACIAL — DIVISIÓN SATELITAL</h4>
-      <p><strong>Centro de Control:</strong> Estación Terrestre Principal — Centro del País</p>
-      <p><strong>Órbitas Activas:</strong> 3 Satélites Nacionales + Red Internacional</p>
-      <h4>📋 PROYECTOS:</h4>
-      <ul>
-        <li>📡 SAT-ECU I — Observación y Monitoreo Territorial</li>
-        <li>📡 SAT-ECU II — Comunicaciones y Datos</li>
-        <li>📡 SAT-ECU III — Meteorología y Cambio Climático</li>
-        <li>🔭 Colaboración con ESA y NASA — Exploración Espacial</li>
-        <li>🌍 Sistema de Cartografía Digital Nacional</li>
-      </ul>
-      <h4>🎯 FUNCIONES:</h4>
-      <p>Imágenes satelitales, pronóstico climático, detección de incendios, control de deforestación, apoyo en desastres naturales y conectividad digital remota.</p>
-    `
-  };
-
-  const contenidoArchivos = {
-    "234": <h4>📁 ARCHIVO #234 — OBSERVACIÓN DE CUERPOS CELESTES</h4><p>Estudio de trayectorias de asteroides cercanos a la Tierra. Colaboración internacional.</p>,
-    "456": <h4>📁 ARCHIVO #456 — TECNOLOGÍA DE PROPULSIÓN</h4><p>Investigación sobre sistemas de propulsión eficiente para misiones espaciales de larga duración.</p>,
-    "384": <h4>📁 ARCHIVO #384 — CAMBIO CLIMÁTICO</h4><p>Análisis de datos satelitales 2000-2026. Proyecciones hasta 2050.</p>,
-    "278": <h4>📁 ARCHIVO #278 — PLAN LUNAR</h4><p>Establecimiento de base permanente en la Luna. Fases de desarrollo 2028-2035.</p>
-  };
-
-  const titulosBases = {
-    marina: "⚓ BASE DE DATOS — FLOTA NAVAL",
-    policia: "🛡️ BASE DE DATOS — POLICÍA NACIONAL",
-    aerea: "✈️ BASE DE DATOS — FUERZA AÉREA",
-    mundial: "🌍 BASE DE DATOS — RED MUNDIAL",
-    espacial: "🛰️ BASE DE DATOS — COMANDO ESPACIAL"
-  };
-
-  // ELEMENTOS
-  const pantallaLogin = document.getElementById("pantallaLogin");
-  const pantallaPrincipal = document.getElementById("pantallaPrincipal");
-  const campoUsuario = document.getElementById("campoUsuario");
-  const campoClave = document.getElementById("campoClave");
-  const botonIngresar = document.getElementById("botonIngresar");
-  const mensajeError = document.getElementById("mensajeError");
-  const nombreUsuario = document.getElementById("nombreUsuario");
-  const btnSalir = document.getElementById("btnSalir");
-  const btnCredencial = document.getElementById("btnCredencial");
-  const ventanaCredencial = document.getElementById("ventanaCredencial");
-  co
