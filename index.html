@@ -372,6 +372,13 @@
     .titulo-nasa { color: #ff9900; text-shadow: 0 0 8px #ff9900; }
     .caja-credencial { border-color: #0f0; box-shadow: 0 0 25px #0f0; }
     .titulo-credencial { color: #0f0; text-shadow: 0 0 8px #0f0; }
+    .vista-previa.mostrada img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 12px;
+    border: 2px solid #00ff00;
+  }  
   </style>
 </head>
 <body>
@@ -652,19 +659,22 @@ document.getElementById("encabezado-casos")?.addEventListener("click", () => {
     document.getElementById("contenido-casos").classList.contains("visible") ? "▲" : "▼";
 });
 
+
 // === VERIFICAR CONTRASEÑA PARA VER IMAGEN ===
 const CLAVE_CASOS = "12345";
 
 function verificarCasos(idCaso, boton) {
-  const claveIngresada = prompt("🔐 INGRESE CÓDIGO DE AUTORIZACIÓN:");
+  const claveIngresada = prompt("🔐 INGRESE CREDENCIALES:");
   
   if (claveIngresada === CLAVE_CASOS) {
     document.getElementById(idCaso).classList.add("mostrada");
-    boton.textContent = "✅ ACCESO_CONCEDIDO";
+    boton.textContent = "✅ ACCESO_AUTORIZADO";
     boton.disabled = true;
-    boton.style.background = "#060";
+    boton.style.background = "#006600";
+    boton.style.color = "#00FF00";
+    alert("✅ ACCESO AUTORIZADO");
   } else if (claveIngresada !== null) {
-    alert("❌ ACCESO_DENEGADO\nCódigo de autorización incorrecto");
+    alert("❌ ACCESO DENEGADO\nCódigo incorrecto");
   }
 }
 </script>
