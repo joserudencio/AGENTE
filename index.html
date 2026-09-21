@@ -577,11 +577,12 @@
 </div>
 
 <script>
-// === TUS DATOS DE ACCESO ===
+<script>
+// === DATOS DE INICIO DE SESIÓN ===
 const USUARIO_CORRECTO = "Josetapias";
-const CONTRASENA_CORRECTA = "1234";  // ✅ Asegúrate que coincida
+const CONTRASENA_CORRECTA = "1234";
 
-// === ELEMENTOS — CORREGIDOS ===
+// === ELEMENTOS ===
 const pantallaLogin = document.getElementById("pantalla-login");
 const pantallaPrincipal = document.getElementById("pantalla-principal");
 const campoUsuario = document.getElementById("campo-usuario");
@@ -589,39 +590,75 @@ const campoClave = document.getElementById("campo-clave");
 const botonIngresar = document.getElementById("boton-ingresar");
 const mensajeError = document.getElementById("mensaje-error");
 const botonSalir = document.getElementById("boton-salir");
+const botonCredencial = document.getElementById("boton-credencial");
+const ventanaCredencial = document.getElementById("ventana-credencial");
 
-// === FUNCIÓN DE INGRESO ===
+// === INICIAR SESIÓN ===
 function verificarAcceso() {
-  const usuarioIngresado = campoUsuario.value.trim();
-  const claveIngresada = campoClave.value.trim();
-
-  if (usuarioIngresado === USUARIO_CORRECTO && claveIngresada === CONTRASENA_CORRECTA) {
-    // ✅ ACCESO CORRECTO
+  if (campoUsuario.value.trim() === USUARIO_CORRECTO && 
+      campoClave.value.trim() === CONTRASENA_CORRECTA) {
     pantallaLogin.style.display = "none";
     pantallaPrincipal.style.display = "block";
     mensajeError.style.display = "none";
   } else {
-    // ❌ DATOS INCORRECTOS
     mensajeError.style.display = "block";
   }
 }
 
-// === CONECTAR BOTONES ===
 botonIngresar.addEventListener("click", verificarAcceso);
+campoClave.addEventListener("keypress", e => e.key === "Enter" && verificarAcceso());
 
-// Permitir entrar con la tecla Enter
-campoClave.addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
-    verificarAcceso();
-  }
-});
-
-// Cerrar sesión
-botonSalir.addEventListener("click", function() {
+// === CERRAR SESIÓN ===
+botonSalir.addEventListener("click", () => {
   pantallaPrincipal.style.display = "none";
   pantallaLogin.style.display = "flex";
   campoUsuario.value = "";
   campoClave.value = "";
   mensajeError.style.display = "none";
 });
+
+// === ABRIR CREDENCIAL ===
+botonCredencial?.addEventListener("click", () => {
+  ventanaCredencial.classList.add("activa");
+});
+
+// === CERRAR TODAS LAS VENTANAS ===
+document.querySelectorAll(".btn-cerrar-ventana").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".ventana").forEach(v => v.classList.remove("activa"));
+  });
+});
+
+// === ABRIR BASES DE DATOS ===
+document.querySelectorAll(".boton-base").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const v = document.getElementById("ventana-" + btn.dataset.base);
+    if (v) v.classList.add("activa");
+  });
+});
+
+// === DESPLEGABLES ===
+document.getElementById("encabezado-bases")?.addEventListener("click", () => {
+  document.getElementById("contenido-bases").classList.toggle("visible");
+  document.getElementById("icono-bases").textContent = 
+    document.getElementById("contenido-bases").classList.contains("visible") ? "▲" : "▼";
+});
+
+document.getElementById("encabezado-casos")?.addEventListener("click", () => {
+  document.getElementById("contenido-casos").classList.toggle("visible");
+  document.getElementById("icono-casos").textContent = 
+    document.getElementById("contenido-casos").classList.contains("visible") ? "▲" : "▼";
+});
+
+// === SUBIR IMÁGENES DE CASOS ===
+function mostrarImagen(input, id) {
+  if (input.files?.[0]) {
+    const r = new FileReader();
+    r.onload = e => {
+      const v = document.getElementById(id);
+      if (v) { v.querySelector("img").src = e.target.result; v.classList.add("mostrada"); }
+    };
+    r.readAsDataURL(input.files[0]);
+  }
+}
 </script>
