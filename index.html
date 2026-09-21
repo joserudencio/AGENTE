@@ -372,6 +372,16 @@
     .titulo-nasa { color: #ff9900; text-shadow: 0 0 8px #ff9900; }
     .caja-credencial { border-color: #0f0; box-shadow: 0 0 25px #0f0; }
     .titulo-credencial { color: #0f0; text-shadow: 0 0 8px #0f0; }
+    .vista-previa {
+  display: none;
+  margin-top: 15px;
+  border-radius: 8px;
+  border: 2px solid #0f0;
+  max-width: 100%;
+}
+.vista-previa.mostrada {
+  display: block;
+}
     .vista-previa.mostrada img {
     width: 100%;
     height: auto;
@@ -472,15 +482,12 @@
       </div>
 
       <!-- CASO 34555 -->
-      <div class="tarjeta-caso">
-        <div class="nombre-caso">📁 CASO 34555</div>
-        <button class="boton-verde" onclick="verificarCasos('caso-34555', this)">🔍 VER DETALLES</button>
-        <div>
-         <img id="caso-34555" class="vista-previa">
-           src="555.jpg" alt="Caso 34555 — Imagen Clasificada">
-        </div>
-      </div>
-
+       <div class="tarjeta-caso">
+  <div class="nombre-caso">📁 CASO 34555</div>
+  <button class="boton-verde" onclick="verificarCasos('caso-34555', this)">VER DETALLES</button>
+  <img id="caso-34555" class="vista-previa" src="555.jpg" alt="Caso 34555 – Imagen Clasificada">
+</div>
+     
     </div>
   </div>
 </div>
